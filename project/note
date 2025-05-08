@@ -1,0 +1,2 @@
+compile: 
+gcc function.c main.c piece_I.h piece_J.h piece_L.h piece_O.h piece_S.h piece_T.h piece_Z.h -o myprogram
