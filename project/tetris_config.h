@@ -2,7 +2,8 @@
 #ifndef TETRIS_CONFIG_H
 #define TETRIS_CONFIG_H
 
-#define WIDTH  10
+//screen setting: 240 , 320. scale down to 15, 20 (divive 16)
+#define WIDTH  15
 #define HEIGHT 20
 #define BLOCK_SIZE   4
 
