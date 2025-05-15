@@ -324,25 +324,31 @@ int isGameOver(int board[HEIGHT][WIDTH]) {
 }
 
 // Returns true if ESC was pressed (signal to exit game loop)
-int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, int *rotate_amount) {
+int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
     if (!_kbhit()) 
         return 0;
 
     char key = _getch();
     switch (key) {
         case 'a': case 'A':
+            if(*pause) break;
             movePieceLeft(board, x, y, piece, *rotation);
             break;
         case 'd': case 'D':
+            if(*pause) break;
             movePieceRight(board, x, y, piece, *rotation);
             break;
         case 's': case 'S':
+            if(*pause) break;
             movePieceDown(board, x, y, piece, *rotation);
             break;
         case 'w': case 'W':
+            if(*pause) break;
             rotatePiece(board, &piece, rotation, x, y);
             (*rotate_amount)++;
             return 2;
+        case 'p': case 'P':
+            return 3;
         case 27:  // ESC
             return 1;
         default:
@@ -351,7 +357,7 @@ int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, 
     return 0;
 }
 
-int main() {
+int gameplay(int *topscore){
     srand((unsigned)time(NULL)); 
 
     int board[HEIGHT][WIDTH];
@@ -362,19 +368,29 @@ int main() {
     int x        = WIDTH/2 - 2;
     int y        = 0;
     int score    = 0;
-    int gameSpeed    = 250;
+    int gameSpeed    = 150;
     int linesRemoved = 0;
     int rotate_amount = 0;
+    int pause = 0;
     while (!isGameOver(board)) {
         printBoard(board, score, piece, rotation, x, y);
 
         // handle input; if ESC, break out and end game
-        int key_result = key_input(board, piece, &rotation, &x, &y, &rotate_amount);
+        int key_result = key_input(board, piece, &rotation, &x, &y, &rotate_amount, &pause);
 
         if (key_result == 1) {
             printf("Exiting game...\n");
             return 0;
-        } else if(key_result == 2){
+        }
+        if(key_result == 3){
+            pause = abs(pause - 1);
+        }
+
+        if(pause){
+            msleep(gameSpeed);
+            continue;
+        }
+        if(key_result == 2){
             if(rotate_amount < 5){
                     msleep(gameSpeed);
                     continue;
@@ -401,6 +417,12 @@ int main() {
             if (isGameOver(board)) {
                 printBoard(board, score, piece, rotation, x, y);
                 printf("Game Over!\n");
+                if(*topscore < score){
+                    *topscore = score;
+                    printf("Top Score: %d\n", score);
+                } else{
+                    printf("Final Score: %d\n", score);
+                }
                 msleep(2000);
                 break;
             }
@@ -408,6 +430,16 @@ int main() {
         rotate_amount = 0;
     }
 
-    printf("Final Score: %d\n", score);
+    
+    return 1;
+}
+
+int main() {
+    int top_score = 0;
+    while(true){
+        if(!gameplay(&top_score)){
+            break;
+        }
+    }
     return 0;
 }
