@@ -372,6 +372,7 @@ int gameplay(int *topscore){
     int linesRemoved = 0;
     int rotate_amount = 0;
     int pause = 0;
+    int next_piece = generatePiece();
     while (!isGameOver(board)) {
         printBoard(board, score, piece, rotation, x, y);
 
@@ -410,7 +411,8 @@ int gameplay(int *topscore){
 
         // if landed, spawn new piece
         if (!canMove(board, piece, rotation, x, y)) {
-            piece    = generatePiece();
+            piece    = next_piece;
+            next_piece = generatePiece();
             rotation = 0;
             x        = WIDTH/2 - 2;
             y        = 0;
