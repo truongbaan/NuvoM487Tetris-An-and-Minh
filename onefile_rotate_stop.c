@@ -28,6 +28,7 @@ static void msleep(int milliseconds) {
 #define HEIGHT 20
 #define BLOCK_SIZE 4 // Each Tetris piece is made of 4 blocks
 
+int i, j;
 // Tetris piece definitions
 // 7 piece, each piece is 4x4 block big, 4 rotation
 //if you want to increase block_size, you would need to redraw all of the piece too
@@ -183,8 +184,8 @@ int pieces[7][4][4][4] = {
 
 // func to init the board when first start
 void createBoard(int board[HEIGHT][WIDTH]) {
-    for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++) {
+    for (i = 0; i < HEIGHT; i++) {
+        for (j = 0; j < WIDTH; j++) {
             board[i][j] = 0; // 0 == empty cell
         }
     }
@@ -220,7 +221,7 @@ void printBoard(int board[HEIGHT][WIDTH], int score, int piece, int rotation, in
     }
 
     // bottom border
-    for(int j = 0; j < WIDTH; j++) {
+    for(j = 0; j < WIDTH; j++) {
         printf("---");
     }
     printf("\n");
@@ -233,8 +234,8 @@ int generatePiece() {
 
 // Function to check if a piece can move to a new position
 int canMove(int board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-        for (int j = 0; j < BLOCK_SIZE; j++) {
+    for (i = 0; i < BLOCK_SIZE; i++) {
+        for (j = 0; j < BLOCK_SIZE; j++) {
             if (pieces[piece][rotation][i][j]) {
                 int newX = x + j;
                 int newY = y + i;
@@ -255,8 +256,8 @@ void movePieceDown(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rota
     if (!canMove(board, piece, rotation, *x, *y)) {
         *y = *y - 1; // Move it back to the original position if it can't move down
         // Lock the piece on the board
-        for (int i = 0; i < BLOCK_SIZE; i++) {
-            for (int j = 0; j < BLOCK_SIZE; j++) {
+        for (i = 0; i < BLOCK_SIZE; i++) {
+            for (j = 0; j < BLOCK_SIZE; j++) {
                 if (pieces[piece][rotation][i][j]) {
                     board[*y + i][*x + j] = (piece + 1);
                 }
@@ -289,9 +290,9 @@ void rotatePiece(int board[HEIGHT][WIDTH], int *piece, int *rotation, int *x, in
 // Function to check for completed lines and remove them
 int removeLines(int board[HEIGHT][WIDTH]) {
     int linesRemoved = 0;
-    for (int i = HEIGHT - 1; i >= 0; i--) {
+    for (i = HEIGHT - 1; i >= 0; i--) {
         int lineComplete = 1;
-        for (int j = 0; j < WIDTH; j++) {
+        for (j = 0; j < WIDTH; j++) {
             if (!board[i][j]) {
                 lineComplete = 0;
                 break;
@@ -316,7 +317,7 @@ int removeLines(int board[HEIGHT][WIDTH]) {
 
 // Function to check for game over
 int isGameOver(int board[HEIGHT][WIDTH]) {
-    for (int j = 0; j < WIDTH; j++) {
+    for (j = 0; j < WIDTH; j++) {
         if (board[0][j])
             return 1; // Game over if there is a block in the top row
     }
