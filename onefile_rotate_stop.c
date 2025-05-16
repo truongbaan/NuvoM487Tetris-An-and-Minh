@@ -24,8 +24,8 @@ static void msleep(int milliseconds) {
 
 //screen setting: 240 , 320. scale down to 15, 20 (divive 16)
 // Game settings
-#define WIDTH 15
-#define HEIGHT 20
+#define WIDTH 14
+#define HEIGHT 30
 #define BLOCK_SIZE 4 // Each Tetris piece is made of 4 blocks
 
 int i, j;
@@ -324,6 +324,45 @@ int isGameOver(int board[HEIGHT][WIDTH]) {
     return 0;
 }
 
+// Compute maximum drop distance for the current piece before collision
+int computeDropDistance(int board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
+    int maxDrop = HEIGHT;  // upper bound
+    // For each cell in the 4×4 piece
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            if (!pieces[piece][rotation][i][j]) continue;
+            int boardX = x + j;
+            int boardY = y + i;
+            // How far can this single block fall?
+            int drop = 0;
+            while (true) {
+                int newY = boardY + drop + 1;
+                // stop at bottom or if next cell is occupied
+                if (newY >= HEIGHT || board[newY][boardX]) break;
+                drop++;
+            }
+            // We need to stop one row before collision, so drop is correct
+            if (drop < maxDrop) 
+                maxDrop = drop;
+        }
+    }
+    return maxDrop;
+}
+
+// Lock the piece into the board at its final spot
+void hardDrop(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
+    int drop = computeDropDistance(board, piece, rotation, *x, *y);
+    *y += drop;
+    // Now immediately lock it in place
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            if (pieces[piece][rotation][i][j]) {
+                board[*y + i][*x + j] = (piece + 1);
+            }
+        }
+    }
+}
+
 // Returns true if ESC was pressed (signal to exit game loop)
 int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
     if (!_kbhit()) 
@@ -348,6 +387,10 @@ int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, 
             rotatePiece(board, &piece, rotation, x, y);
             (*rotate_amount)++;
             return 2;
+        case 'v': case 'V':
+            if(*pause) break;
+            hardDrop(board, x, y, piece, *rotation);
+            break;
         case 'p': case 'P':
             return 3;
         case 27:  // ESC
