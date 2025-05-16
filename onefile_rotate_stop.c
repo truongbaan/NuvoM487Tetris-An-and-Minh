@@ -27,6 +27,7 @@ static void msleep(int milliseconds) {
 #define WIDTH 14
 #define HEIGHT 30
 #define BLOCK_SIZE 4 // Each Tetris piece is made of 4 blocks
+#define MAX_STORE 10
 
 int i, j;
 // Tetris piece definitions
@@ -401,7 +402,19 @@ int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, 
     return 0;
 }
 
-int gameplay(int *topscore){
+void insertScore(int topscore[], int score){
+    for(i = 0; i < MAX_STORE; i++){
+        if(topscore[i] < score){
+            for (int j = MAX_STORE - 1; j > i; j--) {
+                topscore[j] = topscore[j - 1];
+            }
+            topscore[i] = score;
+            break;
+        }
+    }
+}
+
+int gameplay(int topscore[]){
     srand((unsigned)time(NULL)); 
 
     int board[HEIGHT][WIDTH];
@@ -412,7 +425,7 @@ int gameplay(int *topscore){
     int x        = WIDTH/2 - 2;
     int y        = 0;
     int score    = 0;
-    int gameSpeed    = 150;
+    int gameSpeed    = 50;
     int linesRemoved = 0;
     int rotate_amount = 0;
     int pause = 0;
@@ -450,7 +463,7 @@ int gameplay(int *topscore){
         linesRemoved = removeLines(board);
         if (linesRemoved) {
             score += linesRemoved * 100;
-            gameSpeed = (gameSpeed > 100) ? gameSpeed - 50 : 100;
+            gameSpeed = gameSpeed - (int)(gameSpeed/10);
         }
 
         // if landed, spawn new piece
@@ -463,11 +476,9 @@ int gameplay(int *topscore){
             if (isGameOver(board)) {
                 printBoard(board, score, piece, rotation, x, y);
                 printf("Game Over!\n");
-                if(*topscore < score){
-                    *topscore = score;
-                    printf("Top Score: %d\n", score);
-                } else{
-                    printf("Final Score: %d\n", score);
+                insertScore(topscore, score);
+                for(i = 0; i < MAX_STORE; i++){
+                    printf("Score: %d\n", topscore[i]);
                 }
                 msleep(2000);
                 break;
@@ -481,9 +492,9 @@ int gameplay(int *topscore){
 }
 
 int main() {
-    int top_score = 0;
+    int top_score[10] = {0,0,0,0,0,0,0,0,0,0};
     while(true){
-        if(!gameplay(&top_score)){
+        if(!gameplay(top_score)){
             break;
         }
     }
