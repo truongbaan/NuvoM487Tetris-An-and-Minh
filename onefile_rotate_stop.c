@@ -438,7 +438,7 @@ int gameplay(int topscore[]){
     int gameSpeed    = 50;
     int linesRemoved = 0;
     int rotate_amount = 0;
-    int pause = 0;
+    int pause = 1;
     int next_piece = generatePiece();
     while (!isGameOver(board)) {
         printBoard(board, score, piece, rotation, x, y);
