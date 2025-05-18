@@ -667,12 +667,15 @@ int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, 
 
 void insertScore(int topscore[], int score)
 {
+	// Find where the new score fits
 	for (i = 0; i < MAX_STORE; i++)
 	{
-		if (topscore[i] < score) {
+		if (score > topscore[i]) {
+			// Shift all lower scores down
 			for (j = MAX_STORE - 1; j > i; j--) {
 				topscore[j] = topscore [j - 1];
 			}
+			// Insert the new score
 			topscore[i] = score;
 			break;
 		}
@@ -803,7 +806,7 @@ void drawGameScore(int score)
 
 void drawTopScore(int topScore)
 {
-	LCD_PutString(150, 110, (uint8_t *)" TOP SCORE", C_WHITE, C_BLACK);
+	LCD_PutString(160, 110, (uint8_t *)"TOP SCORE", C_WHITE, C_BLACK);
 	char buffer[12];	// Enough for a 32-bit int
 	sprintf(buffer, "%d", topScore);	// Convert int score to string
 	LCD_PutString(170, 125, (uint8_t *)buffer, C_WHITE, C_BLACK);
@@ -1011,8 +1014,8 @@ int32_t main(void)
 			}
 		}
 		
+		int top_score[MAX_STORE] = {0};
     while(1) {
-			int top_score[10] = {0,0,0,0,0,0,0,0,0,0};
 			LCD_DrawGameBackground();
 			if(!gameplay(top_score)){
 					break;
@@ -1020,7 +1023,3 @@ int32_t main(void)
     }
 
 }
-
-
-
-/*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/
