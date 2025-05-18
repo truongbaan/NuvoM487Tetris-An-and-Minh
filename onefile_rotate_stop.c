@@ -414,6 +414,16 @@ void insertScore(int topscore[], int score){
     }
 }
 
+void drawScoreScreen(int topscore[], int score){
+    printf("Game Over!\n");
+    insertScore(topscore, score);
+    printf("Top score: \n");
+    for(i = 0; i < MAX_STORE; i++){
+        printf("Score: %d\n", topscore[i]);
+    }
+    getchar(); // this one is equal to wait for a char input to continue
+}
+
 int gameplay(int topscore[]){
     srand((unsigned)time(NULL)); 
 
@@ -474,13 +484,8 @@ int gameplay(int topscore[]){
             x        = WIDTH/2 - 2;
             y        = 0;
             if (isGameOver(board)) {
-                printBoard(board, score, piece, rotation, x, y);
-                printf("Game Over!\n");
-                insertScore(topscore, score);
-                for(i = 0; i < MAX_STORE; i++){
-                    printf("Score: %d\n", topscore[i]);
-                }
-                msleep(2000);
+                //printBoard(board, score, piece, rotation, x, y);
+                drawScoreScreen(topscore, score);
                 break;
             }
         }
