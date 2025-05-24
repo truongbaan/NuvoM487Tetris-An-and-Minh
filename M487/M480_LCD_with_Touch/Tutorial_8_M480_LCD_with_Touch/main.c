@@ -12,7 +12,7 @@
 
 #include "NuMicro.h"
 #include "EBI_LCD_Module.h"
-#include "startScreenImage.h"
+#include "startScreenImage_RGB565.h"
 
 /*---------------------------------------------------------------------------*/
 /* Define                                                                    */
@@ -23,19 +23,18 @@
 #define BLOCK_SIZE 4 // Each Tetris piece is made of 4 blocks
 #define MAX_STORE 10
 
-
 /*---------------------------------------------------------------------------*/
 /* Global variables                                                          */
 /*---------------------------------------------------------------------------*/
 extern  volatile    uint8_t Timer3_flag;
 extern  volatile    uint8_t Timer3_cnt;
-extern uint8_t startScreen[240*320*3];
+extern const uint16_t startScreenRGB565[240*320];
 int i = 0, j = 0;
 volatile char key = 'p';
 volatile uint8_t keyPressed = 0;
-volatile uint16_t totalSeconds;
+volatile uint16_t totalSeconds = 0;
 volatile uint8_t gameDelayFlag = 0;
-volatile uint32_t systick_ms = 0;
+volatile uint32_t timerCounter = 0;
 const uint32_t LEVEL1_SPEED = 6000000;
 const uint32_t LEVEL2_SPEED = 5400000;
 const uint32_t LEVEL3_SPEED = 4800000;
@@ -47,10 +46,8 @@ const uint32_t LEVEL8_SPEED = 1800000;
 const uint32_t LEVEL9_SPEED = 1200000;
 const uint32_t LEVEL10_SPEED = 600000;
 
-
-// Tetris piece definitions
-// 7 piece, each piece is 4x4 block big, 4 rotation
-//if you want to increase block_size, you would need to redraw all of the piece too
+/*	Tetris Piece Definitions 														*/
+/*	7 Pieces, each piece is 4x4 blocks with 4 rotations	*/
 const int pieces[7][4][4][4] = { 
     // I-piece : 1
     {{{1, 1, 1, 1},
@@ -137,23 +134,23 @@ const int pieces[7][4][4][4] = {
       {0, 0, 0, 0}}},
 
     // O-piece : 5
-    {{{5, 5, 0, 0},
-      {5, 5, 0, 0},
+    {{{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}}},
 
@@ -233,7 +230,7 @@ void SYS_Init(void)
     CLK_SetModuleClock(EADC_MODULE, 0, CLK_CLKDIV0_EADC(8));
     CLK_SetModuleClock(TMR3_MODULE, CLK_CLKSEL1_TMR3SEL_HXT, 0);
 		CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR0SEL_HXT, 0);
-		CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR1SEL_HXT, 0);
+		CLK_SetModuleClock(TMR1_MODULE, CLK_CLKSEL1_TMR1SEL_HXT, 0);
 
     /* Enable IP clock */
     CLK_EnableModuleClock(UART0_MODULE);
@@ -304,23 +301,24 @@ void SYS_Init(void)
 		SYS_LockReg();
 }
 
-void SysTick_Handler(void) {
-    systick_ms++;
+/* Timer0 to track game play time */
+void Timer0_Init(void)
+{
+		/* Open Timer0 in periodic mode, enable interrupt and 1 interrupt tick per second */
+    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 1);
+    TIMER_EnableInt(TIMER0);
+		NVIC_EnableIRQ(TMR0_IRQn);
 }
 
+/* Timer1 to control the game speed delay */
 void Timer1_Init(void)
 {
-    /* 1/12MHz * 1200000 = 100ms */
-    TIMER1->CMP = LEVEL1_SPEED;
-
-    /* Enable Timer3 interrupt and set Timer3 as Periodic Mode, prescale = 0 (/1) */
-    TIMER1->CTL = TIMER_CTL_INTEN_Msk | TIMER_PERIODIC_MODE;
-
-    /* Enable Timer3 IRQ */
-    NVIC_EnableIRQ(TMR1_IRQn);
-
-    /* Enable Timer3 */
-    TIMER1->CTL |= TIMER_CTL_CNTEN_Msk;
+		/* 12MHz Timer1 Clock Frequency */
+		TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 12000000);
+		/* 1/12MHz * 1200000 = 100ms */
+		TIMER_SET_CMP_VALUE(TIMER1, LEVEL1_SPEED);
+		TIMER_EnableInt(TIMER1);
+		NVIC_EnableIRQ(TMR1_IRQn);
 }
 
 void TMR0_IRQHandler(void)
@@ -336,14 +334,8 @@ void TMR0_IRQHandler(void)
 
 void TMR1_IRQHandler(void)
 {
-    if(TIMER_GetIntFlag(TIMER1) == 1)
-    {
-        /* Clear Timer1 time-out interrupt flag */
-        TIMER_ClearIntFlag(TIMER1);
-
-        gameDelayFlag++;
-				printf("Timer 1 delay\n");
-    }
+	gameDelayFlag = 1;
+	TIMER_ClearIntFlag(TIMER1);
 }
 
 void disableSelectiveInterrupts()
@@ -371,7 +363,6 @@ void enableSelectiveInterrupts()
  */
 void GPC_IRQHandler(void)
 {
-		//disableSelectiveInterrupts();
     /* To check if PC.10 interrupt occurred */
     if(GPIO_GET_INT_FLAG(PC, BIT10))
     {
@@ -393,7 +384,6 @@ void GPC_IRQHandler(void)
         PC->INTSRC = PC->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-		//enableSelectiveInterrupts();
 }
 
 /**
@@ -407,7 +397,6 @@ void GPC_IRQHandler(void)
  */
 void GPA_IRQHandler(void)
 {
-		//disableSelectiveInterrupts();
     /* To check if PA.0 interrupt occurred */
     if(GPIO_GET_INT_FLAG(PA, BIT0))
     {
@@ -429,7 +418,6 @@ void GPA_IRQHandler(void)
         PA->INTSRC = PA->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-		//enableSelectiveInterrupts();
 }
 
 /**
@@ -443,7 +431,6 @@ void GPA_IRQHandler(void)
  */
 void GPG_IRQHandler(void)
 {
-		//disableSelectiveInterrupts();
     /* To check if PG.2 interrupt occurred */
     if(GPIO_GET_INT_FLAG(PG, BIT2))
     {
@@ -463,7 +450,7 @@ void GPG_IRQHandler(void)
     //{
     //    GPIO_CLR_INT_FLAG(PG, BIT3);
     //    printf("Joystick (Center) - PG.3 INT occurred.\n");
-				//keyPressed = 1;
+		//		//keyPressed = 1;
     //}
     else
     {
@@ -471,7 +458,6 @@ void GPG_IRQHandler(void)
         PG->INTSRC = PG->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-		//enableSelectiveInterrupts();
 }
 
 void Default_Handler(void)
@@ -482,7 +468,7 @@ void Default_Handler(void)
 }
 
 // func to init the board when first start
-void createBoard(int board[HEIGHT][WIDTH]) {
+void createBoard(uint8_t board[HEIGHT][WIDTH]) {
     for (i = 0; i < HEIGHT; i++) {
         for (j = 0; j < WIDTH; j++) {
             board[i][j] = 0; // 0 == empty cell
@@ -491,53 +477,40 @@ void createBoard(int board[HEIGHT][WIDTH]) {
 }
 
 // func for print board
-void printBoard(int board[HEIGHT][WIDTH], int score, int piece, int rotation, int posX, int posY)
+void printBoard(uint8_t board[HEIGHT][WIDTH], int score, int piece, int rotation, int posX, int posY)
 {		
 		int row, col;
-    //system("cls");
-
-    //printf("Tetris Game   Score: %d\n\n", score);
 
     for (row = 0; row < HEIGHT; row++) {
         for (col = 0; col < WIDTH; col++) {
             if (board[row][col]) {// print out the block that has been occupied
-                //printf("[%d]", board[row][col]);
 								LCD_DrawBlock(board[row][col] - 1, (col * 10) + 10, (row * 10) + 10);
             }
             else {
-								LCD_DrawBlock(8, (col * 10) + 10, (row * 10) + 10);
                 // Then check if the active piece covers this cell
                 int localX = col - posX;
                 int localY = row - posY;
 
                 if ( localX >= 0 && localX < BLOCK_SIZE && localY >= 0 && localY < BLOCK_SIZE && pieces[piece][rotation][localY][localX] ) {
                     // draw falling piece
-                    //printf("[%d]", (piece + 1)); // use number to define color later
 										LCD_DrawBlock(piece, (col * 10) + 10, (row * 10) + 10);
                 }
-                else {
-                    // empty cell
-                    //printf("   "); // 3 width long due to 2 '[' and 1 digit (would be incrase base on the how big the screen and block size be)
-                }
+								else {
+									LCD_DrawBlock(9, (col * 10) + 10, (row * 10) + 10);
+								}
             }
         }
-        //printf("\n");
     }
-
-    // bottom border
-    for(j = 0; j < WIDTH; j++) {
-        //printf("---");
-    }
-    //printf("\n");
 }
 
 // Function to generate a random Tetris piece
 int generatePiece() {
-    return rand() % 7;
+	return TIMER_GetCounter(TIMER3) % 7;
+    //return rand() % 7;
 }
 
 // Function to check if a piece can move to a new position
-int canMove(int board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
+int canMove(uint8_t board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
     for (i = 0; i < BLOCK_SIZE; i++) {
         for (j = 0; j < BLOCK_SIZE; j++) {
             if (pieces[piece][rotation][i][j]) {
@@ -555,7 +528,7 @@ int canMove(int board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
 }
 
 // movement functions
-void movePieceDown(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
+void movePieceDown(uint8_t board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
     *y = *y + 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
         *y = *y - 1; // Move it back to the original position if it can't move down
@@ -570,21 +543,21 @@ void movePieceDown(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rota
     }
 }
 
-void movePieceLeft(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
+void movePieceLeft(uint8_t board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
     *x = *x - 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
         *x = *x + 1;
     }
 }
 
-void movePieceRight(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
+void movePieceRight(uint8_t board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
     *x = *x + 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
         *x = *x - 1;
     }
 }
 
-void rotatePiece(int board[HEIGHT][WIDTH], int *piece, int *rotation, int *x, int *y) {
+void rotatePiece(uint8_t board[HEIGHT][WIDTH], int *piece, int *rotation, int *x, int *y) {
     int newRotation = (*rotation + 1) % 4;
     if (canMove(board, *piece, newRotation, *x, *y)) {
         *rotation = newRotation;
@@ -592,7 +565,7 @@ void rotatePiece(int board[HEIGHT][WIDTH], int *piece, int *rotation, int *x, in
 }
 
 // Function to check for completed lines and remove them
-int removeLines(int board[HEIGHT][WIDTH]) {
+int removeLines(uint8_t board[HEIGHT][WIDTH]) {
     int linesRemoved = 0;
     for (i = HEIGHT - 1; i >= 0; i--) {
         int lineComplete = 1;
@@ -621,7 +594,7 @@ int removeLines(int board[HEIGHT][WIDTH]) {
 }
 
 // Function to check for game over
-int isGameOver(int board[HEIGHT][WIDTH]) {
+int isGameOver(uint8_t board[HEIGHT][WIDTH]) {
     for (j = 0; j < WIDTH; j++) {
         if (board[0][j])
             return 1; // Game over if there is a block in the top row
@@ -630,7 +603,7 @@ int isGameOver(int board[HEIGHT][WIDTH]) {
 }
 
 // Compute maximum drop distance for the current piece before collision
-int computeDropDistance(int board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
+int computeDropDistance(uint8_t board[HEIGHT][WIDTH], int piece, int rotation, int x, int y) {
     int maxDrop = HEIGHT;  // upper bound
     // For each cell in the 4×4 piece
     for (i = 0; i < BLOCK_SIZE; i++) {
@@ -655,7 +628,7 @@ int computeDropDistance(int board[HEIGHT][WIDTH], int piece, int rotation, int x
 }
 
 // Lock the piece into the board at its final spot
-void hardDrop(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
+void hardDrop(uint8_t board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation) {
     int drop = computeDropDistance(board, piece, rotation, *x, *y);
     *y += drop;
     // Now immediately lock it in place
@@ -669,35 +642,28 @@ void hardDrop(int board[HEIGHT][WIDTH], int *x, int *y, int piece, int rotation)
 }
 
 // Returns true if ESC was pressed (signal to exit game loop)
-int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
-    //if (!_kbhit())
-		if (keyPressed == 0)
+int key_input(uint8_t board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
+		if (!keyPressed)
        return 0;
 
-    //char key = _getch();
-		//char key;
-		//disableSelectiveInterrupts();
     switch (key) {
         case 'a': case 'A':
             if(*pause) break;
             movePieceLeft(board, x, y, piece, *rotation);
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             break;
         case 'd': case 'D':
             if(*pause) break;
             movePieceRight(board, x, y, piece, *rotation);
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             break;
         case 's': case 'S':
             if(*pause) break;
             movePieceDown(board, x, y, piece, *rotation);
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             break;
         case 'w': case 'W':
             if(*pause) break;
@@ -705,25 +671,21 @@ int key_input(int board[HEIGHT][WIDTH],int piece,int *rotation, int *x, int *y, 
             (*rotate_amount)++;
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             return 2;
         case 'v': case 'V':
             if(*pause) break;
             hardDrop(board, x, y, piece, *rotation);
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             break;
         case 'p': case 'P':
 						keyPressed = 0;
 						key = 'r';
-						//enableSelectiveInterrupts();
             return 3;
         case 27:  // ESC
             return 1;
 				case 'r':
 						keyPressed = 0;
-						//enableSelectiveInterrupts();
 						return 0;
         default:
 						keyPressed = 0;
@@ -784,28 +746,14 @@ void drawScoreScreen(int topscore[], int score)
 	}
 	
 	/* Wait for user input to return to game play */
-	uint16_t x = 0, y = 0;
 	while(1) {	
-			if(Timer3_flag == 1) {
-				Timer3_flag = 0;
-				
-				x = Get_TP_X();
-				y = Get_TP_Y();
-				
-				if ((x != LCD_W - 1) && (y != LCD_H - 1)) {
-					PH7 = 0;
-					LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
-					PH7 = 1;
-					break;
-				}
-				else if (keyPressed == 1)
-				{
-					LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
-					key = 'p';
-					keyPressed = 0;
-					break;
-				}
-			}
+		if (keyPressed && key == 'p')
+		{
+			LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
+			key = 'p';
+			keyPressed = 0;
+			break;
+		}
 	}
 	LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
 }
@@ -852,7 +800,7 @@ void drawNextPiece(int next_piece)
 					
 				case 4:	// O-piece
 					if (pieces[next_piece][0][i][j])
-					LCD_DrawBlock(next_piece, (j * 10) + 185, (i * 10) + 35);
+					LCD_DrawBlock(next_piece, (j * 10) + 175, (i * 10) + 35);
 					break;
 					
 				case 5:	// S-piece
@@ -914,15 +862,41 @@ void drawTime(uint16_t total_seconds)
 	}
 }
 
-void drawPause()
+void drawPause(void)
 {
-	LCD_PutString(170, 300, (uint8_t *)"PAUSE", C_WHITE, C_BLACK);
+	LCD_PutString(175, 290, (uint8_t *)"PAUSE", C_WHITE, C_BLACK);
+}
+
+void drawUnpause(void)
+{
+	LCD_PutString(175, 290, (uint8_t *)"PAUSE", C_BLACK, C_BLACK);
+}
+
+
+/* Draws the game over sign */
+void drawGameOver(void)
+{
+	LCD_DrawRectangle((240/2) - 35, (320/2) - 20, 70, 40, C_BLACK, 1);
+	LCD_DrawRectangle((240/2) - 35, (320/2) - 20, 70, 40, 0x4208, 0);
+	LCD_PutString(105, 145, (uint8_t *)"GAME", C_WHITE, C_BLACK);
+	LCD_PutString(105, 160, (uint8_t *)"OVER", C_WHITE, C_BLACK);
+	/* Wait for user input to return to game play */
+	while(1) {	
+		if (keyPressed && key == 'p')
+		{
+			LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
+			key = 'p';
+			keyPressed = 0;
+			break;
+		}
+	}
+	LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
 }
 
 int gameplay(int topscore[]){
 		totalSeconds = 0;
 		gameDelayFlag = 0;
-    int board[HEIGHT][WIDTH];
+    static uint8_t board[HEIGHT][WIDTH];
     createBoard(board);
 		
     int piece    = generatePiece();
@@ -936,13 +910,11 @@ int gameplay(int topscore[]){
     int pause = 1;
     int next_piece = generatePiece();
 		int level = 1;
-		uint32_t dropDelay = 500000;
-
+		drawNextPiece(next_piece);
 		
     while (!isGameOver(board)) {
         printBoard(board, score, piece, rotation, x, y);
 				LCD_DrawGameBackground();
-				drawNextPiece(next_piece);
 				drawGameScore(score);
 				drawTopScore(topscore[0]);
 				TIMER_Start(TIMER1);
@@ -957,60 +929,6 @@ int gameplay(int topscore[]){
 				/* Draw the time mm:ss */
 				drawTime(totalSeconds);
 				
-				/* Set game speed */
-				switch (level) {
-					case 1:
-						TIMER1->CMP = LEVEL1_SPEED;
-						dropDelay = 500000;
-						//TIMER1->CNT = 0;
-						break;
-					case 2:
-						TIMER1->CMP = LEVEL2_SPEED;
-						dropDelay = 450000;
-						//TIMER1->CNT = 0;
-						break;
-					case 3:
-						TIMER1->CMP = LEVEL3_SPEED;
-						dropDelay = 400000;
-						//TIMER1->CNT = 0;
-						break;
-					case 4:
-						TIMER1->CMP = LEVEL4_SPEED;
-						dropDelay = 350000;
-						//TIMER1->CNT = 0;
-						break;
-					case 5:
-						TIMER1->CMP = LEVEL5_SPEED;
-						dropDelay = 300000;
-						//TIMER1->CNT = 0;
-						break;
-					case 6:
-						TIMER1->CMP = LEVEL6_SPEED;
-						dropDelay = 250000;
-						//TIMER1->CNT = 0;
-						break;
-					case 7:
-						TIMER1->CMP = LEVEL7_SPEED;
-						dropDelay = 200000;
-						//TIMER1->CNT = 0;
-						break;
-					case 8:
-						TIMER1->CMP = LEVEL8_SPEED;
-						dropDelay = 150000;
-						//TIMER1->CNT = 0;
-						break;
-					case 9:
-						TIMER1->CMP = LEVEL9_SPEED;
-						dropDelay = 100000;
-						//TIMER1->CNT = 0;
-						break;
-					case 10:
-						TIMER1->CMP = LEVEL10_SPEED;
-						dropDelay = 50000;
-						//TIMER1->CNT = 0;
-						break;
-				}
-
 
         // handle input; if ESC, break out and end game
         int key_result = key_input(board, piece, &rotation, &x, &y, &rotate_amount, &pause);
@@ -1026,42 +944,81 @@ int gameplay(int topscore[]){
             CLK_SysTickDelay(gameSpeed);
 						TIMER_Stop(TIMER0);
 						TIMER_Stop(TIMER1);
+						drawPause();
             continue;
         } else {
 					TIMER_Start(TIMER0);
 					TIMER_Start(TIMER1);
+					drawUnpause();
 				}
         if (key_result == 2){
 					if(rotate_amount < 5){
-						CLK_SysTickDelay(dropDelay);
+						CLK_SysTickDelay(gameSpeed);
 						continue;
 					}
         }
-				
-
-        // auto moving down					
-				movePieceDown(board, &x, &y, piece, rotation);
-				CLK_SysTickDelay(dropDelay);
-
+								
+				if (gameDelayFlag)
+				{
+					movePieceDown(board, &x, &y, piece, rotation);
+					gameDelayFlag = 0;
+				}
 
         // clear lines & update score/speed
         linesRemoved = removeLines(board);
         if (linesRemoved) {
-            score += linesRemoved;
-            //gameSpeed = (gameSpeed > 100) ? gameSpeed - 50 : 100;
+					score += linesRemoved;
+					
+					/* Set game speed */
+					switch (level) {
+						case 1:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL1_SPEED);
+							break;
+						case 2:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL2_SPEED);
+							break;
+						case 3:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL3_SPEED);
+							break;
+						case 4:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL4_SPEED);
+							break;
+						case 5:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL5_SPEED);
+							break;
+						case 6:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL6_SPEED);
+							break;
+						case 7:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL7_SPEED);
+							break;
+						case 8:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL8_SPEED);
+							break;
+						case 9:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL9_SPEED);
+							break;
+						case 10:
+							TIMER_SET_CMP_VALUE(TIMER1, LEVEL10_SPEED);
+							break;
+					}
         }
 
         // if landed, spawn new piece
         if (!canMove(board, piece, rotation, x, y)) {
-            piece    = next_piece;
-            next_piece = generatePiece();
-            rotation = 0;
-            x        = WIDTH/2 - 2;
-            y        = 0;
-            if (isGameOver(board)) {
-								drawScoreScreen(topscore, score);
-                break;
-            }
+					if (isGameOver(board)) {
+						drawGameOver();
+						drawScoreScreen(topscore, score);
+						break;
+					}
+					else {
+						piece    = next_piece;
+						next_piece = generatePiece();
+						drawNextPiece(next_piece);
+						rotation = 0;
+						x        = WIDTH/2 - 2;
+						y        = 0;
+					}  
         }
         rotate_amount = 0;
     }
@@ -1069,22 +1026,21 @@ int gameplay(int topscore[]){
     return 1;
 }
 
-/* Initialize GPIO for Joystick, SW1, SW2  */
+/* Initialize GPIO for Joystick, SW1, SW2  	*/
+/* Joystick (Down) 		-	PC.10								*/
+/* Joystick (Up)			-	PG.2								*/
+/* Joystick (Right) 	- PG.4								*/
+/* Joystick (Left)		- PC.9								*/
+/* Joystick (Center)	- PG.3								*/
+/* SW1								- PA.0								*/
+/* SW2								- PA.1								*/
 void GPIO_Init(void)
 {
-	/* Joystick (Down) 		-	PC.10				*/
-	/* Joystick (Up)			-	PG.2				*/
-	/* Joystick (Right) 	- PG.4				*/
-	/* Joystick (Left)		- PC.9				*/
-	/* Joystick (Center)	- PG.3				*/
-	/* SW1								- PA.0				*/
-	/* SW2								- PA.1				*/
-	
 	GPIO_SetMode(PA, BIT0, GPIO_MODE_INPUT);
 	GPIO_SetMode(PA, BIT1, GPIO_MODE_INPUT);
 	GPIO_SetMode(PG, BIT2, GPIO_MODE_INPUT);
-	//GPIO_SetMode(PG, BIT3, GPIO_MODE_INPUT);
-	GPIO_SetMode(PG, BIT4, GPIO_MODE_INPUT);
+	GPIO_SetMode(PG, BIT3, GPIO_MODE_INPUT);
+	//GPIO_SetMode(PG, BIT4, GPIO_MODE_INPUT);
 	GPIO_SetMode(PC, BIT9, GPIO_MODE_INPUT);
 	GPIO_SetMode(PC, BIT10, GPIO_MODE_INPUT); 
 	
@@ -1133,7 +1089,7 @@ void HardFault_HandlerC(uint32_t *hardfault_args)
     printf("PSR = 0x%08X\n", psr);
 
     // Optional: halt here
-    //while (1);
+    while (1);
 }
 
 __attribute__((naked))
@@ -1155,7 +1111,6 @@ void HardFault_Handler(void)
 int32_t main(void)
 {
     uint16_t x = 0, y = 0;
-    char acString[32];
 
     /* Init System, IP clock and multi-function I/O
        In the end of SYS_Init() will issue SYS_LockReg()
@@ -1197,24 +1152,17 @@ int32_t main(void)
     /* Set input mode as single-end and enable the A/D converter */
     EADC_Open(EADC, EADC_CTL_DIFFEN_SINGLE_END);
 		
-    /* Init Timer3 */
+		/* Init Timers */
+		Timer0_Init();
+		Timer1_Init();
     Timer3_Init();
 		
-		/* Open Timer0 in periodic mode, enable interrupt and 1 interrupt tick per second */
-    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 1);
-    TIMER_EnableInt(TIMER0);
-		NVIC_EnableIRQ(TMR0_IRQn);
-		
-		/* Init Timer1 */
-		Timer1_Init();
-		
-		SysTick_Config(SystemCoreClock / 1000);
+		//SysTick_Config(SystemCoreClock / 1000);
 
 		/* Draw the start screen image */
-		LCD_DrawRGBImage(startScreen);
+		LCD_DrawRGB565Image(startScreenRGB565);
 		
-		
-    /* waiting 3s */
+    /* waiting 0.5s */
     Timer3_cnt = 0;
     while(Timer3_cnt < 5) {};
 
@@ -1232,21 +1180,24 @@ int32_t main(void)
 					PH7 = 1;
 					gamestate = 1;
 				}
-				else if (keyPressed == 1)
-				{
-					LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
-					key = 'p';
-					gamestate = 1;
-					keyPressed = 0;
-				}
 			}
+			if (keyPressed && key == 'p')
+			{
+				LCD_BlankArea(0, 0, LCD_W, LCD_H, C_BLACK);
+				gamestate = 1;
+				keyPressed = 0;
+			}
+			key = 'p';
+			
+			LCD_DrawRectangle(25,237,190,40,C_WHITE,0);
+			CLK_SysTickDelay(16000000);
+			LCD_DrawRectangle(25,237,190,40,C_BLUE,0);
+			CLK_SysTickDelay(16000000);
 		}
 		
-		/* Seed the random generator */
-		srand(SysTick->VAL ^ TIMER_GetCounter(TIMER3));
+		LCD_BlankArea(0,0, LCD_W, LCD_H, C_BLACK);
 		
 		int top_score[MAX_STORE] = {0};
-		totalSeconds = 0;
 		gameDelayFlag = 0;
     while(1) {
 			LCD_DrawGameBackground();
@@ -1254,5 +1205,4 @@ int32_t main(void)
 					break;
 			}
     }
-
 }

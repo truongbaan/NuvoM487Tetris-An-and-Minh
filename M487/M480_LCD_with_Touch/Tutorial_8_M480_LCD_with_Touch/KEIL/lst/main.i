@@ -1,7 +1,7 @@
 # 1 "../main.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
-# 401 "<built-in>" 3
+# 402 "<built-in>" 3
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
 # 1 "../main.c" 2
@@ -136,6 +136,11 @@ extern __attribute__((__nothrow__)) int _sprintf(char * __restrict , const char 
 #pragma __printf_args
 extern __attribute__((__nothrow__)) int __ARM_snprintf(char * __restrict , size_t ,
                      const char * __restrict , ...) __attribute__((__nonnull__(3)));
+
+
+#pragma __printf_args
+extern __attribute__((__nothrow__)) int snprintf(char * __restrict , size_t ,
+                     const char * __restrict , ...) __attribute__((__nonnull__(3)));
 # 460 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdio.h" 3
 #pragma __printf_args
 extern __attribute__((__nothrow__)) int _snprintf(char * __restrict , size_t ,
@@ -181,7 +186,17 @@ extern __attribute__((__nothrow__)) int sscanf(const char * __restrict ,
 #pragma __scanf_args
 extern __attribute__((__nothrow__)) int _sscanf(const char * __restrict ,
                      const char * __restrict , ...) __attribute__((__nonnull__(1,2)));
-# 555 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdio.h" 3
+
+
+
+
+
+
+
+extern __attribute__((__nothrow__)) int vfscanf(FILE * __restrict , const char * __restrict , __va_list) __attribute__((__nonnull__(1,2)));
+extern __attribute__((__nothrow__)) int vscanf(const char * __restrict , __va_list) __attribute__((__nonnull__(1)));
+extern __attribute__((__nothrow__)) int vsscanf(const char * __restrict , const char * __restrict , __va_list) __attribute__((__nonnull__(1,2)));
+
 extern __attribute__((__nothrow__)) int _vfscanf(FILE * __restrict , const char * __restrict , __va_list) __attribute__((__nonnull__(1,2)));
 extern __attribute__((__nothrow__)) int _vscanf(const char * __restrict , __va_list) __attribute__((__nonnull__(1)));
 extern __attribute__((__nothrow__)) int _vsscanf(const char * __restrict , const char * __restrict , __va_list) __attribute__((__nonnull__(1,2)));
@@ -208,6 +223,9 @@ extern __attribute__((__nothrow__)) int vsprintf(char * __restrict ,
                      const char * __restrict , __va_list ) __attribute__((__nonnull__(1,2)));
 # 594 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdio.h" 3
 extern __attribute__((__nothrow__)) int __ARM_vsnprintf(char * __restrict , size_t ,
+                     const char * __restrict , __va_list ) __attribute__((__nonnull__(3)));
+
+extern __attribute__((__nothrow__)) int vsnprintf(char * __restrict , size_t ,
                      const char * __restrict , __va_list ) __attribute__((__nonnull__(3)));
 # 609 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdio.h" 3
 extern __attribute__((__nothrow__)) int _vsprintf(char * __restrict ,
@@ -326,6 +344,9 @@ extern __attribute__((__nothrow__)) void __use_no_semihosting(void);
 typedef struct div_t { int quot, rem; } div_t;
 
 typedef struct ldiv_t { long int quot, rem; } ldiv_t;
+
+
+typedef struct lldiv_t { long long quot, rem; } lldiv_t;
 # 139 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
 extern __attribute__((__nothrow__)) int __aeabi_MB_CUR_MAX(void);
 # 158 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
@@ -342,9 +363,28 @@ extern __attribute__((__nothrow__)) int atoi(const char * ) __attribute__((__non
 
 
 extern __attribute__((__nothrow__)) long int atol(const char * ) __attribute__((__nonnull__(1)));
-# 185 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
+
+
+
+
+
+
+extern __attribute__((__nothrow__)) long long atoll(const char * ) __attribute__((__nonnull__(1)));
+
+
+
+
+
+
+
 extern __attribute__((__nothrow__)) double strtod(const char * __restrict , char ** __restrict ) __attribute__((__nonnull__(1)));
-# 212 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
+# 206 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
+extern __attribute__((__nothrow__)) float strtof(const char * __restrict , char ** __restrict ) __attribute__((__nonnull__(1)));
+extern __attribute__((__nothrow__)) long double strtold(const char * __restrict , char ** __restrict ) __attribute__((__nonnull__(1)));
+
+
+
+
 extern __attribute__((__nothrow__)) long int strtol(const char * __restrict ,
                         char ** __restrict , int ) __attribute__((__nonnull__(1)));
 # 243 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
@@ -446,6 +486,10 @@ extern __attribute__((__nothrow__)) __attribute__((__const__)) div_t div(int , i
 extern __attribute__((__nothrow__)) __attribute__((__const__)) long int labs(long int );
 # 589 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
 extern __attribute__((__nothrow__)) __attribute__((__const__)) ldiv_t ldiv(long int , long int );
+# 610 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
+extern __attribute__((__nothrow__)) __attribute__((__const__)) long long llabs(long long );
+# 620 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
+extern __attribute__((__nothrow__)) __attribute__((__const__)) lldiv_t lldiv(long long , long long );
 # 644 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\stdlib.h" 3
 typedef struct __sdiv32by16 { long quot, rem; } __sdiv32by16;
 typedef struct __udiv32by16 { unsigned long quot, rem; } __udiv32by16;
@@ -1196,8 +1240,7 @@ __smusdx(int16x2_t __a, int16x2_t __b) {
   return __builtin_arm_smusdx(__a, __b);
 }
 # 8 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\arm_compat.h" 2 3
-# 39 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\arm_compat.h" 3
-      // 7 != 6) && !__ARM_ARCH_8M_BASE__
+# 40 "C:\\Users\\Justaviet\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\..\\include\\arm_compat.h" 3
 static __inline__ unsigned int __attribute__((__always_inline__, __nodebug__))
 __disable_fiq(void) {
   unsigned int cpsr;
@@ -1227,7 +1270,7 @@ __disable_irq(void) {
 
 
 
-      // 7 != 6) && !__ARM_ARCH_8M_BASE__
+
 static __inline__ void __attribute__((__always_inline__, __nodebug__))
 __enable_fiq(void) {
 
@@ -2481,8 +2524,8 @@ static __inline void __NVIC_SystemReset(void)
 # 1 "./Library/CMSIS/Include\\mpu_armv7.h" 1 3
 # 98 "./Library/CMSIS/Include\\mpu_armv7.h" 3
 typedef struct _ARM_MPU_Region_t {
-  uint32_t RBAR; //!< The region base address register value (RBAR)
-  uint32_t RASR; //!< The region attribute and size register value (RASR) \ref MPU_RASR
+  uint32_t RBAR;
+  uint32_t RASR;
 } ARM_MPU_Region_t;
 
 
@@ -2810,13 +2853,13 @@ typedef struct
     volatile uint32_t ISPCMD;
     volatile uint32_t ISPTRG;
     volatile const uint32_t DFBA;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[10];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t ISPSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CYCCTL;
     volatile uint32_t KPKEY0;
     volatile uint32_t KPKEY1;
@@ -2825,21 +2868,21 @@ typedef struct
     volatile uint32_t KPKEYSTS;
     volatile const uint32_t KPKEYCNT;
     volatile const uint32_t KPCNT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t MPDAT0;
     volatile uint32_t MPDAT1;
     volatile uint32_t MPDAT2;
     volatile uint32_t MPDAT3;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[12];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t MPSTS;
     volatile const uint32_t MPADDR;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t XOMR0STS;
     volatile const uint32_t XOMR1STS;
     volatile const uint32_t XOMR2STS;
@@ -2864,9 +2907,9 @@ typedef struct
     volatile uint32_t INTSRC;
     volatile uint32_t SMTEN;
     volatile uint32_t SLEWCTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PUSEL;
 
 } GPIO_T;
@@ -2909,9 +2952,9 @@ typedef struct
 # 557 "./Library/Device/Nuvoton/M480/Include\\pdma_reg.h"
     DSCT_T DSCT[16];
     volatile const uint32_t CURSCAT[16];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[176];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CHCTL;
     volatile uint32_t PAUSE;
     volatile uint32_t SWREQ;
@@ -2929,24 +2972,24 @@ typedef struct
     volatile uint32_t TOUTIEN;
     volatile uint32_t SCATBA;
     volatile uint32_t TOC0_1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[7];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CHRST;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[7];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t REQSEL0_3;
     volatile uint32_t REQSEL4_7;
     volatile uint32_t REQSEL8_11;
     volatile uint32_t REQSEL12_15;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[28];
-    /// @endcond //HIDDEN_SYMBOLS
+
     STRIDE_T STRIDE[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile uint32_t RESERVE5[52];
-    /// @endcond //HIDDEN_SYMBOLS
+
     REPEAT_T REPEAT[2];
 } PDMA_T;
 # 221 "./Library/Device/Nuvoton/M480/Include\\M480.h" 2
@@ -3041,27 +3084,27 @@ typedef struct
     volatile uint32_t CAMSK;
     volatile uint32_t SPRCTL;
     volatile uint32_t SPR[20];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[28];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t LXTCTL;
     volatile uint32_t GPIOCTL0;
     volatile uint32_t GPIOCTL1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DSTCTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TAMPCTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TAMPSEED;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t TAMPTIME;
     volatile const uint32_t TAMPCAL;
 
@@ -3088,29 +3131,29 @@ typedef struct
     volatile uint32_t CNTEN;
     volatile uint32_t CNTCLR;
     volatile uint32_t LOAD;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PERIOD[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CMPDAT[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DTCTL[3];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PHS[3];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t CNT[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE5[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t WGCTL0;
     volatile uint32_t WGCTL1;
     volatile uint32_t MSKEN;
@@ -3125,34 +3168,34 @@ typedef struct
     volatile uint32_t INTEN1;
     volatile uint32_t INTSTS0;
     volatile uint32_t INTSTS1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE6[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DACTRGEN;
     volatile uint32_t EADCTS0;
     volatile uint32_t EADCTS1;
     volatile uint32_t FTCMPDAT[3];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE7[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t SSCTL;
     volatile uint32_t SSTRG;
     volatile uint32_t LEBCTL;
     volatile uint32_t LEBCNT;
     volatile uint32_t STATUS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE8[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t IFA[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE9[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t AINTSTS;
     volatile uint32_t AINTEN;
     volatile uint32_t APDMACTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE10[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t FDEN;
     volatile uint32_t FDCTL[6];
     volatile uint32_t FDIEN;
@@ -3162,23 +3205,23 @@ typedef struct
     volatile uint32_t EADCPSC1;
     volatile uint32_t EADCPSCNT0;
     volatile uint32_t EADCPSCNT1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE11[26];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CAPINEN;
     volatile uint32_t CAPCTL;
     volatile const uint32_t CAPSTS;
     ECAPDAT_T CAPDAT[6];
     volatile uint32_t PDMACTL;
     volatile const uint32_t PDMACAP[3];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE12[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CAPIEN;
     volatile uint32_t CAPIF;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE13[43];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t PBUF[6];
     volatile const uint32_t CMPBUF[6];
     volatile const uint32_t CPSCBUF[3];
@@ -3201,81 +3244,81 @@ typedef struct
 # 1072 "./Library/Device/Nuvoton/M480/Include\\bpwm_reg.h"
     volatile uint32_t CTL0;
     volatile uint32_t CTL1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CLKSRC;
     volatile uint32_t CLKPSC;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CNTEN;
     volatile uint32_t CNTCLR;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PERIOD;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[7];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CMPDAT[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[10];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t CNT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE5[7];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t WGCTL0;
     volatile uint32_t WGCTL1;
     volatile uint32_t MSKEN;
     volatile uint32_t MSK;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE6[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t POLCTL;
     volatile uint32_t POEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE7[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t INTEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE8[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t INTSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE9[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t EADCTS0;
     volatile uint32_t EADCTS1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE10[4];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t SSCTL;
     volatile uint32_t SSTRG;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE11[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t STATUS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE12[55];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CAPINEN;
     volatile uint32_t CAPCTL;
     volatile const uint32_t CAPSTS;
     BCAPDAT_T CAPDAT[6];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE13[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CAPIEN;
     volatile uint32_t CAPIF;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE14[43];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t PBUF;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE15[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t CMPBUF[6];
 
 } BPWM_T;
@@ -3289,14 +3332,14 @@ typedef struct
     volatile uint32_t CNTHOLD;
     volatile uint32_t CNTLATCH;
     volatile uint32_t CNTCMP;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CNTMAX;
     volatile uint32_t CTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[4];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t STATUS;
 
 } QEI_T;
@@ -3460,9 +3503,9 @@ typedef struct
     volatile uint32_t STATUS0;
     volatile uint32_t TXFIFO;
     volatile const uint32_t RXFIFO;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTL1;
     volatile uint32_t STATUS1;
 
@@ -3479,17 +3522,17 @@ typedef struct
     volatile uint32_t PDMACTL;
     volatile uint32_t FIFOCTL;
     volatile uint32_t STATUS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TX;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t RX;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[11];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t I2SCTL;
     volatile uint32_t I2SCLK;
     volatile uint32_t I2SSTS;
@@ -3507,13 +3550,13 @@ typedef struct
     volatile uint32_t PDMACTL;
     volatile uint32_t FIFOCTL;
     volatile uint32_t STATUS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TX;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t RX;
 
 } QSPI_T;
@@ -3525,9 +3568,9 @@ typedef struct
 # 409 "./Library/Device/Nuvoton/M480/Include\\spim_reg.h"
     volatile uint32_t CTL0;
     volatile uint32_t CTL1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t RXCLKDLY;
     volatile const uint32_t RX[4];
     volatile uint32_t TX[4];
@@ -3559,9 +3602,9 @@ typedef struct
     volatile uint32_t ADDRMSK1;
     volatile uint32_t ADDRMSK2;
     volatile uint32_t ADDRMSK3;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t WKCTL;
     volatile uint32_t WKSTS;
     volatile uint32_t CTL1;
@@ -3585,17 +3628,17 @@ typedef struct
     volatile uint32_t CTL;
     volatile uint32_t INTEN;
     volatile uint32_t BRGEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DATIN0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTLIN0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CLKIN;
     volatile uint32_t LINECTL;
     volatile uint32_t TXDAT;
@@ -3603,9 +3646,9 @@ typedef struct
     volatile uint32_t BUFCTL;
     volatile uint32_t BUFSTS;
     volatile uint32_t PDMACTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[4];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t WKCTL;
     volatile uint32_t WKSTS;
     volatile uint32_t PROTCTL;
@@ -3622,17 +3665,17 @@ typedef struct
     volatile uint32_t CTL;
     volatile uint32_t INTEN;
     volatile uint32_t BRGEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DATIN0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTLIN0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CLKIN;
     volatile uint32_t LINECTL;
     volatile uint32_t TXDAT;
@@ -3640,9 +3683,9 @@ typedef struct
     volatile uint32_t BUFCTL;
     volatile uint32_t BUFSTS;
     volatile uint32_t PDMACTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[4];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t WKCTL;
     volatile uint32_t WKSTS;
     volatile uint32_t PROTCTL;
@@ -3657,19 +3700,19 @@ typedef struct
 {
 # 374 "./Library/Device/Nuvoton/M480/Include\\ui2c_reg.h"
     volatile uint32_t CTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t BRGEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t LINECTL;
     volatile uint32_t TXDAT;
     volatile const uint32_t RXDAT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DEVADDR0;
     volatile uint32_t DEVADDR1;
     volatile uint32_t ADDRMSK0;
@@ -3679,9 +3722,9 @@ typedef struct
     volatile uint32_t PROTCTL;
     volatile uint32_t PROTIEN;
     volatile uint32_t PROTSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t ADMAT;
     volatile uint32_t TMCTL;
 
@@ -3703,9 +3746,9 @@ typedef struct
     volatile uint32_t DAT_A2;
     volatile uint32_t DAT_B1;
     volatile uint32_t DAT_B2;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[13];
-    /// @endcond //HIDDEN_SYMBOLS
+
 } CAN_IF_T;
 
 
@@ -3719,28 +3762,28 @@ typedef struct
     volatile const uint32_t IIDR;
     volatile uint32_t TEST;
     volatile uint32_t BRPE;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile CAN_IF_T IF[2];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t TXREQ1;
     volatile const uint32_t TXREQ2;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[6];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t NDAT1;
     volatile const uint32_t NDAT2;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[6];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t IPND1;
     volatile const uint32_t IPND2;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE5[6];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t MVLD1;
     volatile const uint32_t MVLD2;
     volatile uint32_t WU_EN;
@@ -3754,26 +3797,26 @@ typedef struct
 {
 # 341 "./Library/Device/Nuvoton/M480/Include\\sdh_reg.h"
     volatile uint32_t FB[32];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[224];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DMACTL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DMASA;
     volatile const uint32_t DMABCNT;
     volatile uint32_t DMAINTEN;
     volatile uint32_t DMAINTSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[250];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t GCTL;
     volatile uint32_t GINTEN;
     volatile const uint32_t GINTSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTL;
     volatile uint32_t CMDARG;
     volatile uint32_t INTEN;
@@ -3792,14 +3835,14 @@ typedef struct
 # 233 "./Library/Device/Nuvoton/M480/Include\\ebi_reg.h"
     volatile uint32_t CTL0;
     volatile uint32_t TCTL0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTL1;
     volatile uint32_t TCTL1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[2];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t CTL2;
     volatile uint32_t TCTL2;
 
@@ -3827,20 +3870,20 @@ typedef struct
     volatile uint32_t ATTR;
     volatile const uint32_t VBUSDET;
     volatile uint32_t STBUFSEG;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t EPSTS0;
     volatile const uint32_t EPSTS1;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[24];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t LPMATTR;
     volatile const uint32_t FN;
     volatile uint32_t SE0;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[283];
-    /// @endcond //HIDDEN_SYMBOLS
+
     USBD_EP_T EP[12];
 
 } USBD_T;
@@ -3873,13 +3916,13 @@ typedef struct
 {
 # 868 "./Library/Device/Nuvoton/M480/Include\\hsusbd_reg.h"
     volatile const uint32_t GINTSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t GINTEN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t BUSINTSTS;
     volatile uint32_t BUSINTEN;
     volatile uint32_t OPER;
@@ -3911,9 +3954,9 @@ typedef struct
 
     HSUSBD_EP_T EP[12];
 
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[303];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t DMAADDR;
     volatile uint32_t PHYCTL;
 
@@ -3946,9 +3989,9 @@ typedef struct
     volatile uint32_t HcRhDescriptorB;
     volatile uint32_t HcRhStatus;
     volatile uint32_t HcRhPortStatus[2];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[105];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t HcPhyControl;
     volatile uint32_t HcMiscControl;
 
@@ -3962,27 +4005,27 @@ typedef struct
     volatile const uint32_t EHCVNR;
     volatile const uint32_t EHCSPR;
     volatile const uint32_t EHCCPR;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t UCMDR;
     volatile uint32_t USTSR;
     volatile uint32_t UIENR;
     volatile uint32_t UFINDR;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t UPFLBAR;
     volatile uint32_t UCALAR;
     volatile uint32_t UASSTR;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t UCFGR;
     volatile uint32_t UPSCR[2];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[22];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t USBPCR0;
     volatile uint32_t USBPCR1;
 
@@ -4036,15 +4079,15 @@ typedef struct
     volatile uint32_t PRNG_CTL;
     volatile uint32_t PRNG_SEED;
     volatile const uint32_t PRNG_KEY[8];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile const uint32_t AES_FDBCK[4];
     volatile const uint32_t TDES_FDBCKH;
     volatile const uint32_t TDES_FDBCKL;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[38];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t AES_CTL;
     volatile const uint32_t AES_STS;
     volatile uint32_t AES_DATIN;
@@ -4084,9 +4127,9 @@ typedef struct
     volatile uint32_t TDES0_CNT;
     volatile uint32_t TDES_DATIN;
     volatile const uint32_t TDES_DATOUT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TDES1_KEY1H;
     volatile uint32_t TDES1_KEY1L;
     volatile uint32_t TDES1_KEY2H;
@@ -4098,9 +4141,9 @@ typedef struct
     volatile uint32_t TDES1_SA;
     volatile uint32_t TDES1_DA;
     volatile uint32_t TDES1_CNT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE3[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TDES2_KEY1H;
     volatile uint32_t TDES2_KEY1L;
     volatile uint32_t TDES2_KEY2H;
@@ -4112,9 +4155,9 @@ typedef struct
     volatile uint32_t TDES2_SA;
     volatile uint32_t TDES2_DA;
     volatile uint32_t TDES2_CNT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE4[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t TDES3_KEY1H;
     volatile uint32_t TDES3_KEY1L;
     volatile uint32_t TDES3_KEY2H;
@@ -4126,9 +4169,9 @@ typedef struct
     volatile uint32_t TDES3_SA;
     volatile uint32_t TDES3_DA;
     volatile uint32_t TDES3_CNT;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE5[3];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t HMAC_CTL;
     volatile const uint32_t HMAC_STS;
     volatile const uint32_t HMAC_DGST[16];
@@ -4136,9 +4179,9 @@ typedef struct
     volatile uint32_t HMAC_SADDR;
     volatile uint32_t HMAC_DMACNT;
     volatile uint32_t HMAC_DATIN;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE6[298];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t ECC_CTL;
     volatile const uint32_t ECC_STS;
     volatile uint32_t ECC_X1[18];
@@ -4163,9 +4206,9 @@ typedef struct
 # 92 "./Library/Device/Nuvoton/M480/Include\\trng_reg.h"
     volatile uint32_t CTL;
     volatile const uint32_t DATA;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t ACT;
 
 } TRNG_T;
@@ -4181,13 +4224,13 @@ typedef struct
     volatile uint32_t SWTRG;
     volatile uint32_t PENDSTS;
     volatile uint32_t OVSTS;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE0[8];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t SCTL[19];
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE1[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t INTSRC[4];
     volatile uint32_t CMP[4];
     volatile const uint32_t STATUS0;
@@ -4198,9 +4241,9 @@ typedef struct
     volatile uint32_t PWRM;
     volatile uint32_t CALCTL;
     volatile uint32_t CALDWRD;
-    /// @cond HIDDEN_SYMBOLS
+
     volatile const uint32_t RESERVE2[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PDMACTL;
 } EADC_T;
 # 253 "./Library/Device/Nuvoton/M480/Include\\M480.h" 2
@@ -4259,24 +4302,24 @@ typedef struct {
     volatile uint32_t PLNSL;
     volatile uint32_t FRCTL;
     volatile uint32_t STRIDE;
-    /// @cond HIDDEN_SYMBOLS
+
     uint32_t RESERVE0[1];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t FIFOTH;
     volatile uint32_t CMPADDR;
     volatile uint32_t LUMA_Y1_THD;
     volatile uint32_t PKTSM;
-    /// @cond HIDDEN_SYMBOLS
+
     uint32_t RESERVE2[5];
-    /// @endcond //HIDDEN_SYMBOLS
+
     volatile uint32_t PKTBA0;
 } CCAP_T;
 # 257 "./Library/Device/Nuvoton/M480/Include\\M480.h" 2
 # 467 "./Library/Device/Nuvoton/M480/Include\\M480.h"
-typedef volatile uint8_t vu8; ///< Define 8-bit unsigned volatile data type
-typedef volatile uint16_t vu16; ///< Define 16-bit unsigned volatile data type
-typedef volatile uint32_t vu32; ///< Define 32-bit unsigned volatile data type
-typedef volatile uint64_t vu64; ///< Define 64-bit unsigned volatile data type
+typedef volatile uint8_t vu8;
+typedef volatile uint16_t vu16;
+typedef volatile uint32_t vu32;
+typedef volatile uint64_t vu64;
 # 665 "./Library/Device/Nuvoton/M480/Include\\M480.h"
 # 1 "./Library/StdDriver/inc\\sys.h" 1
 # 1576 "./Library/StdDriver/inc\\sys.h"
@@ -4314,8 +4357,6 @@ void SYS_SetPowerLevel(uint32_t u32PowerLevel);
 void SYS_SetVRef(uint32_t u32VRefCTL);
 # 666 "./Library/Device/Nuvoton/M480/Include\\M480.h" 2
 # 1 "./Library/StdDriver/inc\\clk.h" 1
-# 301 "./Library/StdDriver/inc\\clk.h"
-//
 # 541 "./Library/StdDriver/inc\\clk.h"
 extern int32_t g_CLK_i32ErrCode;
 # 605 "./Library/StdDriver/inc\\clk.h"
@@ -4993,7 +5034,7 @@ static __inline void I2C_STOP(I2C_T *i2c);
 # 444 "./Library/StdDriver/inc\\i2c.h"
 static __inline void I2C_STOP(I2C_T *i2c)
 {
-    uint32_t u32TimeOutCount = SystemCoreClock; // 1 second timeout
+    uint32_t u32TimeOutCount = SystemCoreClock;
     (i2c)->CTL0 |= ((0x1ul << (3)) | (0x1ul << (4)));
     while(i2c->CTL0 & (0x1ul << (4)))
     {
@@ -5577,7 +5618,7 @@ static __inline void RTC_WaitAccessEnable(void);
 # 287 "./Library/StdDriver/inc\\rtc.h"
 static __inline void RTC_WaitAccessEnable(void)
 {
-    uint32_t u32TimeOutCount = SystemCoreClock; // 1 second timeout
+    uint32_t u32TimeOutCount = SystemCoreClock;
     uint32_t i = 0;
 
     while((((RTC_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x01000UL))->RWEN & (0x1ul << (24))) == (0x1ul << (24)))
@@ -6002,12 +6043,11 @@ void HSUSBD_SetVendorRequest(HSUSBD_VENDOR_REQ pfnVendorReq);
 # 13 "./Library/Device/Nuvoton/M480/Include\\NuMicro.h" 2
 # 14 "../main.c" 2
 # 1 "..\\EBI_LCD_Module.h" 1
-# 28 "..\\EBI_LCD_Module.h"
-// Characters
+# 29 "..\\EBI_LCD_Module.h"
 extern uint8_t Font8x16[];
 extern uint16_t Font16x32[];
 
-// Sub-functions
+
 void ILI9341_Initial(void);
 void Timer3_Init(void);
 void LCD_WR_REG(uint16_t cmd);
@@ -6017,34 +6057,47 @@ void LCD_SetWindow(uint16_t x_s, uint16_t x_e, uint16_t y_s, uint16_t y_e);
 void LCD_PutString(uint16_t x, uint16_t y, uint8_t *s, uint32_t fColor, uint32_t bColor);
 void LCD_PutChar16x32(uint16_t x, uint16_t y, uint16_t c, uint32_t fColor, uint32_t bColor);
 void LCD_BlankArea(uint16_t X, uint16_t Y, uint16_t W, uint16_t H, uint16_t color);
+void LCD_DrawPixel(int x0, int y0, uint16_t color);
+void LCD_DrawRectangle(int x, int y, int width, int height, uint16_t color, uint8_t fill);
+uint16_t RGB16B(uint8_t r, uint8_t g, uint8_t b);
+void LCD_DrawBlock(int block_index, int x0, int y0);
+void LCD_DrawGameBackground(void);
+void LCD_DrawRGBImage(const uint8_t *img);
+void LCD_DrawRGB565Image(const uint16_t *img);
 uint16_t Get_TP_X(void);
 uint16_t Get_TP_Y(void);
 # 15 "../main.c" 2
-# 1 "..\\startScreenImage.h" 1
+# 1 "..\\startScreenImage_RGB565.h" 1
 
 
 
-extern uint8_t startScreen[240*320*3];
+extern const uint16_t startScreenRGB565[240 * 320];
 # 16 "../main.c" 2
-
-
-
-
-// Game settings
 # 29 "../main.c"
 extern volatile uint8_t Timer3_flag;
 extern volatile uint8_t Timer3_cnt;
-extern uint8_t startScreen[240*320*3];
+extern const uint16_t startScreenRGB565[240*320];
 int i = 0, j = 0;
 volatile char key = 'p';
 volatile uint8_t keyPressed = 0;
-volatile uint16_t seconds = 0;
+volatile uint16_t totalSeconds = 0;
+volatile uint8_t gameDelayFlag = 0;
+volatile uint32_t timerCounter = 0;
+const uint32_t LEVEL1_SPEED = 6000000;
+const uint32_t LEVEL2_SPEED = 5400000;
+const uint32_t LEVEL3_SPEED = 4800000;
+const uint32_t LEVEL4_SPEED = 4200000;
+const uint32_t LEVEL5_SPEED = 3600000;
+const uint32_t LEVEL6_SPEED = 3000000;
+const uint32_t LEVEL7_SPEED = 2400000;
+const uint32_t LEVEL8_SPEED = 1800000;
+const uint32_t LEVEL9_SPEED = 1200000;
+const uint32_t LEVEL10_SPEED = 600000;
 
-// Tetris piece definitions
-// 7 piece, each piece is 4x4 block big, 4 rotation
-//if you want to increase block_size, you would need to redraw all of the piece too
-int pieces[7][4][4][4] = {
-    // I-piece : 1
+
+
+const int pieces[7][4][4][4] = {
+
     {{{1, 1, 1, 1},
       {0, 0, 0, 0},
       {0, 0, 0, 0},
@@ -6065,7 +6118,7 @@ int pieces[7][4][4][4] = {
       {0, 1, 0, 0},
       {0, 1, 0, 0}}},
 
-    // J-piece : 2
+
     {{{2, 0, 0, 0},
       {2, 2, 2, 0},
       {0, 0, 0, 0},
@@ -6086,7 +6139,7 @@ int pieces[7][4][4][4] = {
       {2, 2, 0, 0},
       {0, 0, 0, 0}}},
 
-    // Z-piece : 3
+
     {{{3, 3, 0, 0},
       {0, 3, 3, 0},
       {0, 0, 0, 0},
@@ -6107,7 +6160,7 @@ int pieces[7][4][4][4] = {
       {3, 0, 0, 0},
       {0, 0, 0, 0}}},
 
-    // L-piece : 4
+
     {{{0, 0, 4, 0},
       {4, 4, 4, 0},
       {0, 0, 0, 0},
@@ -6128,28 +6181,28 @@ int pieces[7][4][4][4] = {
       {0, 4, 0, 0},
       {0, 0, 0, 0}}},
 
-    // O-piece : 5
-    {{{5, 5, 0, 0},
-      {5, 5, 0, 0},
+
+    {{{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}},
 
-     {{5, 5, 0, 0},
-      {5, 5, 0, 0},
+     {{0, 5, 5, 0},
+      {0, 5, 5, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0}}},
 
-    // S-piece : 6
+
     {{{0, 6, 6, 0},
       {6, 6, 0, 0},
       {0, 0, 0, 0},
@@ -6170,7 +6223,7 @@ int pieces[7][4][4][4] = {
       {0, 6, 0, 0},
       {0, 0, 0, 0}}},
 
-    // T-piece : 7
+
     {{{0, 7, 0, 0},
       {7, 7, 7, 0},
       {0, 0, 0, 0},
@@ -6224,6 +6277,8 @@ void SYS_Init(void)
     CLK_SetModuleClock(((1UL<<30)|(1UL<<28) |(0x3UL<<25) |(24UL<<20) |(0UL<<18) |(0xFUL<<10) |(8UL<<5) |(16UL<<0)), (0x0UL << (24)), (((1) - 1UL) << (8)));
     CLK_SetModuleClock(((1UL<<30)|(0x0UL<<28)|(0x0UL<<25)|(0x0UL<<20)|(0UL<<18) |(0xFFUL<<10) |(16UL<<5) |(28UL<<0)), 0, (((8) - 1UL) << (16)));
     CLK_SetModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(20UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(5UL<<0)), (0x0UL << (20)), 0);
+  CLK_SetModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(8UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(2UL<<0)), (0x0UL << (8)), 0);
+  CLK_SetModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(12UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(3UL<<0)), (0x0UL << (12)), 0);
 
 
     CLK_EnableModuleClock(((1UL<<30)|(1UL<<28) |(0x3UL<<25) |(24UL<<20) |(0UL<<18) |(0xFUL<<10) |(8UL<<5) |(16UL<<0)));
@@ -6231,13 +6286,9 @@ void SYS_Init(void)
     CLK_EnableModuleClock(((1UL<<30)|(0x0UL<<28)|(0x0UL<<25)|(0x0UL<<20)|(0UL<<18) |(0xFFUL<<10) |(16UL<<5) |(28UL<<0)));
     CLK_EnableModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(20UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(5UL<<0)));
     CLK_EnableModuleClock(((2UL<<30)|(0x0UL<<28)|(0x0UL<<25)|(0x0UL<<20)|(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(25UL<<0)));
-
-
-
-
-
-
-
+  CLK_EnableModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(8UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(2UL<<0)));
+  CLK_EnableModuleClock(((1UL<<30)|(1UL<<28) |(0x7UL<<25) |(12UL<<20) |(0x0UL<<18)|(0x0UL<<10)|(0x0UL<<5)|(3UL<<0)));
+# 251 "../main.c"
     ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPG_MFPH &= ~((0xful << (4)) | (0xful << (8)) |
                        (0xful << (12)) | (0xful << (16)) |
                        (0xful << (20)) | (0xful << (24)));
@@ -6264,7 +6315,7 @@ void SYS_Init(void)
                       (0x02UL<<(8)) | (0x02UL<<(12)));
 
 
-    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x041C0UL)), (0x00000008UL) ///< Bit 3 mask of an 32 bit integer, 0x1UL);
+    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x041C0UL)), (0x00000008UL), 0x1UL);
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((3)<<2)))) = 1;
 
 
@@ -6276,8 +6327,8 @@ void SYS_Init(void)
     ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPD_MFPH |= (0x02UL<<(24));
 
 
-    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)), (0x00000040UL) ///< Bit 6 mask of an 32 bit integer, 0x1UL);
-    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)), (0x00000080UL) ///< Bit 7 mask of an 32 bit integer, 0x1UL);
+    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)), (0x00000040UL), 0x1UL);
+    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)), (0x00000080UL), 0x1UL);
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(1))) + ((6)<<2)))) = 1;
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(1))) + ((7)<<2)))) = 0;
 
@@ -6285,10 +6336,47 @@ void SYS_Init(void)
 
     ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPD_MFPL &= ~((0xful << (8)) | (0xful << (12)));
     ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPD_MFPL |= ((0x09UL<<(8)) | (0x09UL<<(12)));
-  ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPB_MFPH &= ~(0xful << 16) | (0xful << 20); // Clear current settings ((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)).12 [19:16], ((GPIO_T *) (((uint32_t)0x40000000) + 0x04040UL)).13 [23:20]
-  ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPB_MFPH |= (0x06UL << 16) | (0x06UL << 20); // ((UART_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x30000UL)) - MFP6
+  ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPB_MFPH &= ~(0xful << 16) | (0xful << 20);
+  ((SYS_T *) (((uint32_t)0x40000000) + 0x00000UL))->GPB_MFPH |= (0x06UL << 16) | (0x06UL << 20);
 
   SYS_LockReg();
+}
+
+
+void Timer0_Init(void)
+{
+
+    TIMER_Open(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL)), (1UL << (27)), 1);
+    TIMER_EnableInt(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL)));
+  __NVIC_EnableIRQ(TMR0_IRQn);
+}
+
+
+void Timer1_Init(void)
+{
+
+  TIMER_Open(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)), (1UL << (27)), 12000000);
+
+  ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL1_SPEED));
+  TIMER_EnableInt(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)));
+  __NVIC_EnableIRQ(TMR1_IRQn);
+}
+
+void TMR0_IRQHandler(void)
+{
+    if(TIMER_GetIntFlag(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL))) == 1)
+    {
+
+        TIMER_ClearIntFlag(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL)));
+
+        totalSeconds++;
+    }
+}
+
+void TMR1_IRQHandler(void)
+{
+ gameDelayFlag = 1;
+ TIMER_ClearIntFlag(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)));
 }
 
 void disableSelectiveInterrupts()
@@ -6304,21 +6392,20 @@ void enableSelectiveInterrupts()
  __NVIC_EnableIRQ(GPC_IRQn);
  __NVIC_EnableIRQ(GPG_IRQn);
 }
-# 311 "../main.c"
+# 364 "../main.c"
 void GPC_IRQHandler(void)
 {
-  //disableSelectiveInterrupts();
 
-    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC & ((0x00000400UL) ///< Bit 10 mask of an 32 bit integer)))
+    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC & ((0x00000400UL))))
     {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC = ((0x00000400UL) ///< Bit 10 mask of an 32 bit integer));
+        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC = ((0x00000400UL)));
         printf("Joystick (Down) - PC.10 INT occurred.\n");
     keyPressed = 1;
     key = 's';
     }
-  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC & ((0x00000200UL) ///< Bit 9 mask of an 32 bit integer)))
+  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC & ((0x00000200UL))))
   {
-    ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC = ((0x00000200UL) ///< Bit 9 mask of an 32 bit integer));
+    ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->INTSRC = ((0x00000200UL)));
     printf("Joystick (Left) - PC.9 INT occured.\n");
     keyPressed = 1;
     key = 'a';
@@ -6329,23 +6416,21 @@ void GPC_IRQHandler(void)
         ((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL))->INTSRC = ((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL))->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-  //enableSelectiveInterrupts();
 }
-# 347 "../main.c"
+# 398 "../main.c"
 void GPA_IRQHandler(void)
 {
-  //disableSelectiveInterrupts();
 
-    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC & ((0x00000001UL) ///< Bit 0 mask of an 32 bit integer)))
+    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC & ((0x00000001UL))))
     {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC = ((0x00000001UL) ///< Bit 0 mask of an 32 bit integer));
+        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC = ((0x00000001UL)));
         printf("SW1 - PA.0 INT occurred.\n");
     keyPressed = 1;
     key = 'p';
     }
-  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC & ((0x00000002UL) ///< Bit 1 mask of an 32 bit integer)))
+  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC & ((0x00000002UL))))
     {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC = ((0x00000002UL) ///< Bit 1 mask of an 32 bit integer));
+        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->INTSRC = ((0x00000002UL)));
         printf("SW2 - PA.1 INT occurred.\n");
     keyPressed = 1;
     key = 'v';
@@ -6356,123 +6441,114 @@ void GPA_IRQHandler(void)
         ((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL))->INTSRC = ((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL))->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-  //enableSelectiveInterrupts();
 }
-# 383 "../main.c"
+# 432 "../main.c"
 void GPG_IRQHandler(void)
 {
-  //disableSelectiveInterrupts();
 
-    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC & ((0x00000004UL) ///< Bit 2 mask of an 32 bit integer)))
+    if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC & ((0x00000004UL))))
     {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC = ((0x00000004UL) ///< Bit 2 mask of an 32 bit integer));
+        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC = ((0x00000004UL)));
         printf("Joystick (Up) - PG.2 INT occurred.\n");
     keyPressed = 1;
     key = 'w';
     }
-  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC & ((0x00000010UL) ///< Bit 4 mask of an 32 bit integer)))
+  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC & ((0x00000010UL))))
     {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC = ((0x00000010UL) ///< Bit 4 mask of an 32 bit integer));
+        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC = ((0x00000010UL)));
         printf("Joystick (Right) - PG.4 INT occurred.\n");
     keyPressed = 1;
     key = 'd';
     }
-  else if(((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC & ((0x00000008UL) ///< Bit 3 mask of an 32 bit integer)))
-    {
-        ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->INTSRC = ((0x00000008UL) ///< Bit 3 mask of an 32 bit integer));
-        printf("Joystick (Center) - PG.3 INT occurred.\n");
-    //keyPressed = 1;
-    }
+
+
+
+
+
+
     else
     {
 
         ((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL))->INTSRC = ((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL))->INTSRC;
         printf("Un-expected interrupts.\n");
     }
-  //enableSelectiveInterrupts();
 }
 
-// func to init the board when first start
-void createBoard(int board[30][14]) {
+void Default_Handler(void)
+{
+  uint32_t irq_num = ((SCB_Type *) ((0xE000E000UL) + 0x0D00UL) )->ICSR & (0x1FFUL );
+    printf("??  Default_Handler: Unhandled IRQ #%lu\n", (unsigned long)(irq_num & 0x1FF));
+    while (1);
+}
+
+
+void createBoard(uint8_t board[30][14]) {
     for (i = 0; i < 30; i++) {
         for (j = 0; j < 14; j++) {
-            board[i][j] = 0; // 0 == empty cell
+            board[i][j] = 0;
         }
     }
 }
 
-// func for print board
-void printBoard(int board[30][14], int score, int piece, int rotation, int posX, int posY)
+
+void printBoard(uint8_t board[30][14], int score, int piece, int rotation, int posX, int posY)
 {
   int row, col;
-    //system("cls");
-
-    printf("Tetris Game   Score: %d\n\n", score);
 
     for (row = 0; row < 30; row++) {
         for (col = 0; col < 14; col++) {
-            if (board[row][col]) {// print out the block that has been occupied
-                printf("[%d]", board[row][col]);
+            if (board[row][col]) {
         LCD_DrawBlock(board[row][col] - 1, (col * 10) + 10, (row * 10) + 10);
             }
             else {
-        LCD_DrawBlock(8, (col * 10) + 10, (row * 10) + 10);
-                // Then check if the active piece covers this cell
+
                 int localX = col - posX;
                 int localY = row - posY;
 
-                if ( localX >= 0 && localX < 4 // Each Tetris piece is made of 4 blocks && localY >= 0 && localY < 4 // Each Tetris piece is made of 4 blocks && pieces[piece][rotation][localY][localX] ) {
-                    // draw falling piece
-                    printf("[%d]", (piece + 1)); // use number to define color later
+                if ( localX >= 0 && localX < 4 && localY >= 0 && localY < 4 && pieces[piece][rotation][localY][localX] ) {
+
           LCD_DrawBlock(piece, (col * 10) + 10, (row * 10) + 10);
                 }
-                else {
-                    // empty cell
-                    printf("   "); // 3 width long due to 2 '[' and 1 digit (would be incrase base on the how big the screen and block size be)
-                }
+        else {
+         LCD_DrawBlock(9, (col * 10) + 10, (row * 10) + 10);
+        }
             }
         }
-        printf("\n");
     }
-
-    // bottom border
-    for(j = 0; j < 14; j++) {
-        printf("---");
-    }
-    printf("\n");
 }
 
-// Function to generate a random Tetris piece
+
 int generatePiece() {
-    return rand() % 7;
+ return TIMER_GetCounter(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x11100UL))) % 7;
+
 }
 
-// Function to check if a piece can move to a new position
-int canMove(int board[30][14], int piece, int rotation, int x, int y) {
-    for (i = 0; i < 4 // Each Tetris piece is made of 4 blocks; i++) {
-        for (j = 0; j < 4 // Each Tetris piece is made of 4 blocks; j++) {
+
+int canMove(uint8_t board[30][14], int piece, int rotation, int x, int y) {
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (pieces[piece][rotation][i][j]) {
                 int newX = x + j;
                 int newY = y + i;
 
                 if (newX < 0 || newX >= 14 || newY >= 30 || board[newY][newX])
-                    return 0; // Out of bounds or collision
-                if(newY < 0) //ignore checking the top of the board
+                    return 0;
+                if(newY < 0)
                     continue;
             }
         }
     }
-    return 1; // The piece can move
+    return 1;
 }
 
-// movement functions
-void movePieceDown(int board[30][14], int *x, int *y, int piece, int rotation) {
+
+void movePieceDown(uint8_t board[30][14], int *x, int *y, int piece, int rotation) {
     *y = *y + 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
-        *y = *y - 1; // Move it back to the original position if it can't move down
-        // Lock the piece on the board
-        for (i = 0; i < 4 // Each Tetris piece is made of 4 blocks; i++) {
-            for (j = 0; j < 4 // Each Tetris piece is made of 4 blocks; j++) {
+        *y = *y - 1;
+
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
                 if (pieces[piece][rotation][i][j]) {
                     board[*y + i][*x + j] = (piece + 1);
                 }
@@ -6481,29 +6557,29 @@ void movePieceDown(int board[30][14], int *x, int *y, int piece, int rotation) {
     }
 }
 
-void movePieceLeft(int board[30][14], int *x, int *y, int piece, int rotation) {
+void movePieceLeft(uint8_t board[30][14], int *x, int *y, int piece, int rotation) {
     *x = *x - 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
         *x = *x + 1;
     }
 }
 
-void movePieceRight(int board[30][14], int *x, int *y, int piece, int rotation) {
+void movePieceRight(uint8_t board[30][14], int *x, int *y, int piece, int rotation) {
     *x = *x + 1;
     if (!canMove(board, piece, rotation, *x, *y)) {
         *x = *x - 1;
     }
 }
 
-void rotatePiece(int board[30][14], int *piece, int *rotation, int *x, int *y) {
+void rotatePiece(uint8_t board[30][14], int *piece, int *rotation, int *x, int *y) {
     int newRotation = (*rotation + 1) % 4;
     if (canMove(board, *piece, newRotation, *x, *y)) {
         *rotation = newRotation;
     }
 }
 
-// Function to check for completed lines and remove them
-int removeLines(int board[30][14]) {
+
+int removeLines(uint8_t board[30][14]) {
     int linesRemoved = 0;
     for (i = 30 - 1; i >= 0; i--) {
         int lineComplete = 1;
@@ -6515,14 +6591,14 @@ int removeLines(int board[30][14]) {
         }
         if (lineComplete) {
             linesRemoved++;
-            // Shift all rows above down by one row
+
       int k, l;
             for (k = i - 1; k >= 0; k--) {
                 for (l = 0; l < 14; l++) {
                     board[k + 1][l] = board[k][l];
                 }
             }
-            // Clear the top row
+
             for (l = 0; l < 14; l++) {
                 board[0][l] = 0;
             }
@@ -6531,33 +6607,33 @@ int removeLines(int board[30][14]) {
     return linesRemoved;
 }
 
-// Function to check for game over
-int isGameOver(int board[30][14]) {
+
+int isGameOver(uint8_t board[30][14]) {
     for (j = 0; j < 14; j++) {
         if (board[0][j])
-            return 1; // Game over if there is a block in the top row
+            return 1;
     }
     return 0;
 }
 
-// Compute maximum drop distance for the current piece before collision
-int computeDropDistance(int board[30][14], int piece, int rotation, int x, int y) {
-    int maxDrop = 30; // upper bound
-    // For each cell in the 4×4 piece
-    for (i = 0; i < 4 // Each Tetris piece is made of 4 blocks; i++) {
-        for (j = 0; j < 4 // Each Tetris piece is made of 4 blocks; j++) {
+
+int computeDropDistance(uint8_t board[30][14], int piece, int rotation, int x, int y) {
+    int maxDrop = 30;
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (!pieces[piece][rotation][i][j]) continue;
             int boardX = x + j;
             int boardY = y + i;
-            // How far can this single block fall?
+
             int drop = 0;
             while (1) {
                 int newY = boardY + drop + 1;
-                // stop at bottom or if next cell is occupied
+
                 if (newY >= 30 || board[newY][boardX]) break;
                 drop++;
             }
-            // We need to stop one row before collision, so drop is correct
+
             if (drop < maxDrop)
                 maxDrop = drop;
         }
@@ -6565,13 +6641,13 @@ int computeDropDistance(int board[30][14], int piece, int rotation, int x, int y
     return maxDrop;
 }
 
-// Lock the piece into the board at its final spot
-void hardDrop(int board[30][14], int *x, int *y, int piece, int rotation) {
+
+void hardDrop(uint8_t board[30][14], int *x, int *y, int piece, int rotation) {
     int drop = computeDropDistance(board, piece, rotation, *x, *y);
     *y += drop;
-    // Now immediately lock it in place
-    for (i = 0; i < 4 // Each Tetris piece is made of 4 blocks; i++) {
-        for (j = 0; j < 4 // Each Tetris piece is made of 4 blocks; j++) {
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (pieces[piece][rotation][i][j]) {
                 board[*y + i][*x + j] = (piece + 1);
             }
@@ -6579,36 +6655,29 @@ void hardDrop(int board[30][14], int *x, int *y, int piece, int rotation) {
     }
 }
 
-// Returns 1 if ESC was pressed (signal to exit game loop)
-int key_input(int board[30][14],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
-    //if (!_kbhit())
-  if (keyPressed == 0)
+
+int key_input(uint8_t board[30][14],int piece,int *rotation, int *x, int *y, int *rotate_amount, int *pause) {
+  if (!keyPressed)
        return 0;
 
-    //char key = _getch();
-  //char key;
-  //disableSelectiveInterrupts();
     switch (key) {
         case 'a': case 'A':
             if(*pause) break;
             movePieceLeft(board, x, y, piece, *rotation);
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             break;
         case 'd': case 'D':
             if(*pause) break;
             movePieceRight(board, x, y, piece, *rotation);
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             break;
         case 's': case 'S':
             if(*pause) break;
             movePieceDown(board, x, y, piece, *rotation);
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             break;
         case 'w': case 'W':
             if(*pause) break;
@@ -6616,25 +6685,21 @@ int key_input(int board[30][14],int piece,int *rotation, int *x, int *y, int *ro
             (*rotate_amount)++;
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             return 2;
         case 'v': case 'V':
             if(*pause) break;
             hardDrop(board, x, y, piece, *rotation);
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             break;
         case 'p': case 'P':
       keyPressed = 0;
       key = 'r';
-      //enableSelectiveInterrupts();
             return 3;
-        case 27: // ESC
+        case 27:
             return 1;
     case 'r':
       keyPressed = 0;
-      //enableSelectiveInterrupts();
       return 0;
         default:
       keyPressed = 0;
@@ -6646,12 +6711,15 @@ int key_input(int board[30][14],int piece,int *rotation, int *x, int *y, int *ro
 
 void insertScore(int topscore[], int score)
 {
+
  for (i = 0; i < 10; i++)
  {
-  if (topscore[i] < score) {
+  if (score > topscore[i]) {
+
    for (j = 10 - 1; j > i; j--) {
     topscore[j] = topscore [j - 1];
    }
+
    topscore[i] = score;
    break;
   }
@@ -6660,54 +6728,48 @@ void insertScore(int topscore[], int score)
 
 void drawScoreScreen(int topscore[], int score)
 {
- LCD_BlankArea(0, 0, 240 // LCD Width at pixels, 320 // LCD Hight at pixels, 0x0000);
+ LCD_BlankArea(0, 0, 240, 320, 0x0000);
  printf("Game Over!\n");
+
  insertScore(topscore, score);
+
+
+ for (i = 0; i < 24; i++) {
+  LCD_DrawBlock(7,i*10, 0);
+  for (j = 0; j < 32; j++) {
+   if (i == 0 || i == 23) {
+    LCD_DrawBlock(7,i*10,j*10);
+   }
+   if (j == 31) {
+    LCD_DrawBlock(7,i*10,j*10);
+   }
+  }
+ }
+
+
+ LCD_PutString(80, 40, (uint8_t *)"HIGH SCORES", 0xFFFF, 0x0000);
  printf("Top score: \n");
+
+
  for (i = 0; i < 10; i++)
  {
   printf("Score: %d\n", topscore[i]);
+  char buffer[12];
+  sprintf(buffer, "%d", topscore[i]);
+  LCD_PutString(80, (i * 20) + 65, (uint8_t *)buffer, 0xFFFF, 0x0000);
  }
- uint16_t x = 0, y = 0;
+
+
  while(1) {
-   if(Timer3_flag == 1) {
-    Timer3_flag = 0;
-
-    x = Get_TP_X();
-    y = Get_TP_Y();
-
-    if ((x != 240 // LCD Width at pixels - 1) && (y != 320 // LCD Hight at pixels - 1)) {
-     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((7)<<2)))) = 0;
-     LCD_BlankArea(0, 0, 240 // LCD Width at pixels, 320 // LCD Hight at pixels, 0x0000);
-     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((7)<<2)))) = 1;
-     break;
-    }
-    else if (keyPressed == 1)
-    {
-     LCD_BlankArea(0, 0, 240 // LCD Width at pixels, 320 // LCD Hight at pixels, 0x0000);
-     key = 'p';
-     keyPressed = 0;
-     break;
-    }
-   }
+  if (keyPressed && key == 'p')
+  {
+   LCD_BlankArea(0, 0, 240, 320, 0x0000);
+   key = 'p';
+   keyPressed = 0;
+   break;
+  }
  }
-}
-
-
-void LCD_DisplayTime(int x, int y, int total_seconds, uint16_t f_color, uint16_t b_color)
-{
- int minutes = total_seconds / 60;
- int seconds = total_seconds % 60;
-
- char time_str[6]; // "mm:ss" + null terminator
-
- if (minutes < 100 && seconds < 60) {
-  sprintf(time_str, "%02d:%02d", minutes, seconds);
-  LCD_PutString(x, y, (uint8_t *)time_str, f_color, b_color);
-
- } else {
-  LCD_PutString(x, y, (uint8_t *)"99:60", f_color, b_color);
- }
+ LCD_BlankArea(0, 0, 240, 320, 0x0000);
 }
 
 
@@ -6730,37 +6792,37 @@ void drawNextPiece(int next_piece)
   for (j = 0; j < 4; j++)
   {
    switch (next_piece) {
-    case 0: // I-piece
+    case 0:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 175, (i * 10) + 40);
      break;
 
-    case 1: // J-piece
+    case 1:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 180, (i * 10) + 35);
      break;
 
-    case 2: // Z-piece
+    case 2:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 180, (i * 10) + 35);
      break;
 
-    case 3: // L-piece
+    case 3:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 180, (i * 10) + 35);
      break;
 
-    case 4: // O-piece
+    case 4:
      if (pieces[next_piece][0][i][j])
-     LCD_DrawBlock(next_piece, (j * 10) + 185, (i * 10) + 35);
+     LCD_DrawBlock(next_piece, (j * 10) + 175, (i * 10) + 35);
      break;
 
-    case 5: // S-piece
+    case 5:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 180, (i * 10) + 35);
      break;
 
-    case 6: // T-piece
+    case 6:
      if (pieces[next_piece][0][i][j])
      LCD_DrawBlock(next_piece, (j * 10) + 180, (i * 10) + 35);
      break;
@@ -6774,22 +6836,81 @@ void drawNextPiece(int next_piece)
 
 void drawGameScore(int score)
 {
- LCD_PutString(160, 80, (uint8_t *)"SCORE", 0xFFFF, 0x0000);
- char buffer[12]; // Enough for a 32-bit int
- sprintf(buffer, "%d", score); // Convert int score to string
+ LCD_PutString(170, 80, (uint8_t *)"SCORE", 0xFFFF, 0x0000);
+ char buffer[12];
+ sprintf(buffer, "%d", score);
  LCD_PutString(170, 95, (uint8_t *)buffer, 0xFFFF, 0x0000);
 }
 
 void drawTopScore(int topScore)
 {
- LCD_PutString(150, 110, (uint8_t *)" TOP SCORE", 0xFFFF, 0x0000);
- char buffer[12]; // Enough for a 32-bit int
- sprintf(buffer, "%d", topScore); // Convert int score to string
- LCD_PutString(170, 125, (uint8_t *)buffer, 0xFFFF, 0x0000);
+ LCD_PutString(170, 130, (uint8_t *)"HISCORE", 0xFFFF, 0x0000);
+ char buffer[12];
+ sprintf(buffer, "%d", topScore);
+ LCD_PutString(170, 145, (uint8_t *)buffer, 0xFFFF, 0x0000);
+}
+
+void drawLevel(uint8_t level)
+{
+ LCD_PutString(170, 180, (uint8_t *)"LEVEL", 0xFFFF, 0x0000);
+ char buffer[12];
+ sprintf(buffer, "%d", level);
+ LCD_PutString(170, 195, (uint8_t *)buffer, 0xFFFF, 0x0000);
+}
+
+
+void drawTime(uint16_t total_seconds)
+{
+ uint8_t minutes = total_seconds / 60;
+ uint8_t seconds = total_seconds % 60;
+
+ char time_str[6];
+
+ LCD_PutString(170, 230, (uint8_t *)"TIME", 0xFFFF, 0x0000);
+
+ if (minutes < 100 && seconds < 60) {
+  sprintf(time_str, "%02d:%02d", minutes, seconds);
+  LCD_PutString(170, 245, (uint8_t *)time_str, 0xFFFF, 0x0000);
+ } else {
+  LCD_PutString(170, 245, (uint8_t *)"99:60", 0xFFFF, 0x0000);
+ }
+}
+
+void drawPause(void)
+{
+ LCD_PutString(175, 290, (uint8_t *)"PAUSE", 0xFFFF, 0x0000);
+}
+
+void drawUnpause(void)
+{
+ LCD_PutString(175, 290, (uint8_t *)"PAUSE", 0x0000, 0x0000);
+}
+
+
+
+void drawGameOver(void)
+{
+ LCD_DrawRectangle((240/2) - 35, (320/2) - 20, 70, 40, 0x0000, 1);
+ LCD_DrawRectangle((240/2) - 35, (320/2) - 20, 70, 40, 0x4208, 0);
+ LCD_PutString(105, 145, (uint8_t *)"GAME", 0xFFFF, 0x0000);
+ LCD_PutString(105, 160, (uint8_t *)"OVER", 0xFFFF, 0x0000);
+
+ while(1) {
+  if (keyPressed && key == 'p')
+  {
+   LCD_BlankArea(0, 0, 240, 320, 0x0000);
+   key = 'p';
+   keyPressed = 0;
+   break;
+  }
+ }
+ LCD_BlankArea(0, 0, 240, 320, 0x0000);
 }
 
 int gameplay(int topscore[]){
-    int board[30][14];
+  totalSeconds = 0;
+  gameDelayFlag = 0;
+    static uint8_t board[30][14];
     createBoard(board);
 
     int piece = generatePiece();
@@ -6797,21 +6918,33 @@ int gameplay(int topscore[]){
     int x = 14/2 - 2;
     int y = 0;
     int score = 0;
-    int gameSpeed = 150;
+    int gameSpeed = 500000;
     int linesRemoved = 0;
     int rotate_amount = 0;
     int pause = 1;
     int next_piece = generatePiece();
-
+  int level = 1;
+  drawNextPiece(next_piece);
 
     while (!isGameOver(board)) {
         printBoard(board, score, piece, rotation, x, y);
     LCD_DrawGameBackground();
-    drawNextPiece(next_piece);
     drawGameScore(score);
     drawTopScore(topscore[0]);
+    TIMER_Start(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)));
 
-        // handle input; if ESC, break out and end game
+
+    level = (score / 5) + 1;
+    if (level > 10) {
+     level = 10;
+    }
+    drawLevel(level);
+
+
+    drawTime(totalSeconds);
+
+
+
         int key_result = key_input(board, piece, &rotation, &x, &y, &rotate_amount, &pause);
 
         if (key_result == 1) {
@@ -6821,11 +6954,17 @@ int gameplay(int topscore[]){
         if (key_result == 3){
             pause = abs(pause - 1);
         }
-
         if (pause){
             CLK_SysTickDelay(gameSpeed);
+      TIMER_Stop(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL)));
+      TIMER_Stop(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)));
+      drawPause();
             continue;
-        }
+        } else {
+     TIMER_Start(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10000UL)));
+     TIMER_Start(((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)));
+     drawUnpause();
+    }
         if (key_result == 2){
      if(rotate_amount < 5){
       CLK_SysTickDelay(gameSpeed);
@@ -6833,56 +6972,88 @@ int gameplay(int topscore[]){
      }
         }
 
+    if (gameDelayFlag)
+    {
+     movePieceDown(board, &x, &y, piece, rotation);
+     gameDelayFlag = 0;
+    }
 
-        // auto moving down
-        movePieceDown(board, &x, &y, piece, rotation);
-        CLK_SysTickDelay(gameSpeed);
 
-        // clear lines & update score/speed
         linesRemoved = removeLines(board);
         if (linesRemoved) {
-            score += linesRemoved * 100;
-            gameSpeed = (gameSpeed > 100) ? gameSpeed - 50 : 100;
+     score += linesRemoved;
+
+
+     switch (level) {
+      case 1:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL1_SPEED));
+       break;
+      case 2:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL2_SPEED));
+       break;
+      case 3:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL3_SPEED));
+       break;
+      case 4:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL4_SPEED));
+       break;
+      case 5:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL5_SPEED));
+       break;
+      case 6:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL6_SPEED));
+       break;
+      case 7:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL7_SPEED));
+       break;
+      case 8:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL8_SPEED));
+       break;
+      case 9:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL9_SPEED));
+       break;
+      case 10:
+       ((((TIMER_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x10100UL)))->CMP = (LEVEL10_SPEED));
+       break;
+     }
         }
 
-        // if landed, spawn new piece
-        if (!canMove(board, piece, rotation, x, y)) {
-            piece = next_piece;
-            next_piece = generatePiece();
-            rotation = 0;
-            x = 14/2 - 2;
-            y = 0;
-            if (isGameOver(board)) {
-                //printBoard(board, score, piece, rotation, x, y);
-                //printf("Game Over!\n");
 
-                //CLK_SysTickDelay(2000);
-        drawScoreScreen(topscore, score);
-                break;
-            }
+        if (!canMove(board, piece, rotation, x, y)) {
+     if (isGameOver(board)) {
+      drawGameOver();
+      drawScoreScreen(topscore, score);
+      break;
+     }
+     else {
+      piece = next_piece;
+      next_piece = generatePiece();
+      drawNextPiece(next_piece);
+      rotation = 0;
+      x = 14/2 - 2;
+      y = 0;
+     }
         }
         rotate_amount = 0;
     }
 
     return 1;
 }
-
-
+# 1037 "../main.c"
 void GPIO_Init(void)
 {
-# 902 "../main.c"
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), (0x00000001UL) ///< Bit 0 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), (0x00000002UL) ///< Bit 1 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), (0x00000004UL) ///< Bit 2 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), (0x00000008UL) ///< Bit 3 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), (0x00000010UL) ///< Bit 4 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), (0x00000200UL) ///< Bit 9 mask of an 32 bit integer, 0x0UL);
- GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), (0x00000400UL) ///< Bit 10 mask of an 32 bit integer, 0x0UL);
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), (0x00000001UL), 0x0UL);
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), (0x00000002UL), 0x0UL);
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), (0x00000004UL), 0x0UL);
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), (0x00000008UL), 0x0UL);
+
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), (0x00000200UL), 0x0UL);
+ GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), (0x00000400UL), 0x0UL);
 
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), 0, 0x00010000UL);
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)), 1, 0x00010000UL);
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), 2, 0x00010000UL);
- GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), 3, 0x00010000UL);
+
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)), 4, 0x00010000UL);
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), 9, 0x00010000UL);
  GPIO_EnableInt(((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)), 10, 0x00010000UL);
@@ -6891,14 +7062,53 @@ void GPIO_Init(void)
  __NVIC_EnableIRQ(GPG_IRQn);
  __NVIC_EnableIRQ(GPC_IRQn);
 
- //(((GPIO_DBCTL_T *) (((uint32_t)0x40000000) + 0x04440UL))->DBCTL = ((1ul << (5)) | (0x00000010UL) | (0x0000000AUL)));
-  //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->DBEN |= ((0x00000001UL) ///< Bit 0 mask of an 32 bit integer));
-  //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->DBEN |= ((0x00000002UL) ///< Bit 1 mask of an 32 bit integer));
- //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->DBEN |= ((0x00000004UL) ///< Bit 2 mask of an 32 bit integer));
-  //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->DBEN |= ((0x00000008UL) ///< Bit 3 mask of an 32 bit integer));
- //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->DBEN |= ((0x00000010UL) ///< Bit 4 mask of an 32 bit integer));
-  //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->DBEN |= ((0x00000200UL) ///< Bit 9 mask of an 32 bit integer));
- //((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->DBEN |= ((0x00000400UL) ///< Bit 10 mask of an 32 bit integer));
+ (((GPIO_DBCTL_T *) (((uint32_t)0x40000000) + 0x04440UL))->DBCTL = ((1ul << (5)) | (0x00000010UL) | (0x00000005UL)));
+  ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->DBEN |= ((0x00000001UL)));
+ ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04000UL)))->DBEN |= ((0x00000002UL)));
+ ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->DBEN |= ((0x00000004UL)));
+
+ ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04180UL)))->DBEN |= ((0x00000010UL)));
+  ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->DBEN |= ((0x00000200UL)));
+ ((((GPIO_T *) (((uint32_t)0x40000000) + 0x04080UL)))->DBEN |= ((0x00000400UL)));
+}
+
+
+void HardFault_HandlerC(uint32_t *hardfault_args)
+{
+    uint32_t r0 = hardfault_args[0];
+    uint32_t r1 = hardfault_args[1];
+    uint32_t r2 = hardfault_args[2];
+    uint32_t r3 = hardfault_args[3];
+    uint32_t r12 = hardfault_args[4];
+    uint32_t lr = hardfault_args[5];
+    uint32_t pc = hardfault_args[6];
+    uint32_t psr = hardfault_args[7];
+
+    printf("==== HardFault Handler ====\n");
+    printf("R0  = 0x%08X\n", r0);
+    printf("R1  = 0x%08X\n", r1);
+    printf("R2  = 0x%08X\n", r2);
+    printf("R3  = 0x%08X\n", r3);
+    printf("R12 = 0x%08X\n", r12);
+    printf("LR  = 0x%08X\n", lr);
+    printf("PC  = 0x%08X\n", pc);
+    printf("PSR = 0x%08X\n", psr);
+
+
+    while (1);
+}
+
+__attribute__((naked))
+void HardFault_Handler(void)
+{
+    __asm volatile
+    (
+        "TST LR, #4\n"
+        "ITE EQ\n"
+        "MRSEQ R0, MSP\n"
+        "MRSNE R0, PSP\n"
+        "B HardFault_HandlerC\n"
+    );
 }
 
 
@@ -6907,7 +7117,6 @@ void GPIO_Init(void)
 int32_t main(void)
 {
     uint16_t x = 0, y = 0;
-    char acString[32];
 
 
 
@@ -6941,7 +7150,7 @@ int32_t main(void)
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(1))) + ((7)<<2)))) = 1;
 
 
-    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x041C0UL)), (0x00000080UL) ///< Bit 7 mask of an 32 bit integer|(0x00000040UL) ///< Bit 6 mask of an 32 bit integer, 0x1UL);
+    GPIO_SetMode(((GPIO_T *) (((uint32_t)0x40000000) + 0x041C0UL)), (0x00000080UL)|(0x00000040UL), 0x1UL);
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((7)<<2)))) = 1;
     (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((6)<<2)))) = 1;
 
@@ -6950,10 +7159,14 @@ int32_t main(void)
     EADC_Open(((EADC_T *) ((((uint32_t)0x40000000) + (uint32_t)0x00040000) + 0x03000UL)), (0UL<<(8)));
 
 
+  Timer0_Init();
+  Timer1_Init();
     Timer3_Init();
 
 
-  LCD_DrawRGBImage(startScreen);
+
+
+  LCD_DrawRGB565Image(startScreenRGB565);
 
 
     Timer3_cnt = 0;
@@ -6967,24 +7180,32 @@ int32_t main(void)
     x = Get_TP_X();
     y = Get_TP_Y();
 
-    if ((x != 240 // LCD Width at pixels - 1) && (y != 320 // LCD Hight at pixels - 1)) {
+    if ((x != 240 - 1) && (y != 320 - 1)) {
      (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((7)<<2)))) = 0;
-     LCD_BlankArea(0, 0, 240 // LCD Width at pixels, 320 // LCD Hight at pixels, 0x0000);
+     LCD_BlankArea(0, 0, 240, 320, 0x0000);
      (*((volatile uint32_t *)(((((uint32_t)0x40000000) + 0x04800UL)+(0x40*(7))) + ((7)<<2)))) = 1;
      gamestate = 1;
     }
-    else if (keyPressed == 1)
-    {
-     LCD_BlankArea(0, 0, 240 // LCD Width at pixels, 320 // LCD Hight at pixels, 0x0000);
-     key = 'p';
-     gamestate = 1;
-     keyPressed = 0;
-    }
    }
+   if (keyPressed && key == 'p')
+   {
+    LCD_BlankArea(0, 0, 240, 320, 0x0000);
+    gamestate = 1;
+    keyPressed = 0;
+   }
+   key = 'p';
+
+   LCD_DrawRectangle(25,237,190,40,0xFFFF,0);
+   CLK_SysTickDelay(16000000);
+   LCD_DrawRectangle(25,237,190,40,0x001F,0);
+   CLK_SysTickDelay(16000000);
   }
 
+  LCD_BlankArea(0,0, 240, 320, 0x0000);
+
+  int top_score[10] = {0};
+  gameDelayFlag = 0;
     while(1) {
-   int top_score[10] = {0,0,0,0,0,0,0,0,0,0};
    LCD_DrawGameBackground();
    if(!gameplay(top_score)){
      break;

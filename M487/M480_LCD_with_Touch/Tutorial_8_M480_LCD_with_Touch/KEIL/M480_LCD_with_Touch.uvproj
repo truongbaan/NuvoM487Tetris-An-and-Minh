@@ -10,7 +10,6 @@
       <TargetName>M480_LCD_with_Touch</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>6220000::V6.22::ARMCLANG</pArmCC>
       <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
@@ -369,7 +368,7 @@
             <uC99>0</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
+            <v6Lang>5</v6Lang>
             <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
@@ -380,7 +379,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Library\CMSIS\Include;.\Library\Device\Nuvoton\M480\Include;.\Library\StdDriver\inc</IncludePath>
+              <IncludePath>.\Library\CMSIS\Include;.\Library\Device\Nuvoton\M480\Include;.\Library\StdDriver\inc;..\..\Tutorial_8_M480_LCD_with_Touch</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -465,9 +464,9 @@
               <FilePath>..\block.c</FilePath>
             </File>
             <File>
-              <FileName>startScreenImage.c</FileName>
+              <FileName>startScreenImage_RGB565.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\startScreenImage.c</FilePath>
+              <FilePath>..\startScreenImage_RGB565.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -513,11 +512,6 @@
               <FileName>ebi.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Library\StdDriver\src\ebi.c</FilePath>
-            </File>
-            <File>
-              <FileName>trng.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Library\StdDriver\src\trng.c</FilePath>
             </File>
           </Files>
         </Group>

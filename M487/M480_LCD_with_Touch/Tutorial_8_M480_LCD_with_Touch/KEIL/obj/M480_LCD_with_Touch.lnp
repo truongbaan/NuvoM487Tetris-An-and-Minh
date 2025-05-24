@@ -6,7 +6,7 @@
 ".\obj\image.o"
 ".\obj\image_16x32.o"
 ".\obj\block.o"
-".\obj\startscreenimage.o"
+".\obj\startscreenimage_rgb565.o"
 ".\obj\clk.o"
 ".\obj\retarget.o"
 ".\obj\sys.o"
@@ -15,7 +15,6 @@
 ".\obj\gpio.o"
 ".\obj\eadc.o"
 ".\obj\ebi.o"
-".\obj\trng.o"
 --library_type=microlib --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict
 --map --first='startup_M480.o(RESET)' --datacompressor=off --info=inline --entry Reset_Handler --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

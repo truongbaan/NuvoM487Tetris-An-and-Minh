@@ -28,14 +28,14 @@
 /* Block Size */
 #define BLOCK_SIZE       10
 #define PIXELS_PER_BLOCK (BLOCK_SIZE * BLOCK_SIZE)
-#define BYTES_PER_BLOCK  (PIXELS_PER_BLOCK * 3)
+#define BYTES_PER_BLOCK  (PIXELS_PER_BLOCK)
 
 volatile    uint8_t     Timer3_flag = 0;
 volatile    uint8_t     Timer3_cnt = 0;
 
 volatile    uint32_t    g_u32AdcIntFlag_TP;
 
-extern uint8_t blocks[9][BYTES_PER_BLOCK];
+extern const uint16_t blocks[10][BYTES_PER_BLOCK];
 
 /**
  * @brief       TMR3 IRQ handler
@@ -56,7 +56,6 @@ void TMR3_IRQHandler(void)
 
     /* Timer3_cnt + 1 */
     Timer3_cnt = Timer3_cnt + 1;
-
 }
 
 /**
@@ -87,7 +86,6 @@ void Timer3_Init(void)
 
     /* Reset Timer3_cnt */
     Timer3_cnt = 0;
-
 }
 
 /**
@@ -448,6 +446,26 @@ void LCD_DrawRGBImage(const uint8_t *img)
 }
 
 /**
+ * @brief       Draw a 240x320 RGB565 image pixel by pixel
+ *
+ * @param       img: Pointer to an array of size 240*320 (RGB565 format)
+ * @return      None
+ *
+ * @details     Sends each 16-bit RGB565 pixel directly to the LCD
+ */
+void LCD_DrawRGB565Image(const uint16_t *img)
+{
+    uint32_t totalPixels = 240 * 320;
+    uint32_t i;
+
+    LCD_SetWindow(0, 239, 0, 319);  // Set the full screen as the active window
+
+    for (i = 0; i < totalPixels; i++) {
+        LCD_WR_DATA(img[i]);
+    }
+}
+
+/**
  * @brief       Draw a pixel on the LCD
  *
  * @param       x: X-coordinate
@@ -515,7 +533,7 @@ uint16_t RGB16B(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 /**
- * @brief       Draw a block on the LCD
+ * @brief       Draw a block on the LCD (RGB565 format)
  *
  * @param  block_index  Index of the block in the `blocks` array (0–7)
  * @param  x0           X coordinate of the top-left pixel on screen
@@ -525,22 +543,14 @@ uint16_t RGB16B(uint8_t r, uint8_t g, uint8_t b) {
  */
 void LCD_DrawBlock(int block_index, int x0, int y0)
 {
-    // Validate index
-    //if (block_index < 0 || block_index >= 9) {
-    //   return;
-    //}
-
-    const uint8_t *sprite = blocks[block_index];
+    const uint16_t *sprite = blocks[block_index]; // sprite is now RGB565 (uint16_t per pixel)
 		
-		int dy;
+		int dy, dx;
     for (dy = 0; dy < BLOCK_SIZE; ++dy) {
-				int dx;
         for (dx = 0; dx < BLOCK_SIZE; ++dx) {
-            int idx = (dy * BLOCK_SIZE + dx) * 3;
-            uint8_t r = (uint8_t)sprite[idx + 0];
-            uint8_t g = (uint8_t)sprite[idx + 1];
-            uint8_t b = (uint8_t)sprite[idx + 2];
-						LCD_DrawPixel(x0 + dx, y0 + dy, RGB16B(r,g,b));
+            int idx = dy * BLOCK_SIZE + dx;
+            uint16_t color = sprite[idx];  // Direct RGB565 value
+            LCD_DrawPixel(x0 + dx, y0 + dy, color);
         }
     }
 }

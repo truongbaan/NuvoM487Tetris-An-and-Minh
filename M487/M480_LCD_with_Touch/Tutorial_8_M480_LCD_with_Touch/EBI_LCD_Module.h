@@ -39,6 +39,13 @@ void LCD_SetWindow(uint16_t x_s, uint16_t x_e, uint16_t y_s, uint16_t y_e);
 void LCD_PutString(uint16_t x, uint16_t y, uint8_t *s, uint32_t fColor, uint32_t bColor);
 void LCD_PutChar16x32(uint16_t x, uint16_t y, uint16_t c, uint32_t fColor, uint32_t bColor);
 void LCD_BlankArea(uint16_t X, uint16_t Y, uint16_t W, uint16_t H, uint16_t color);
+void LCD_DrawPixel(int x0, int y0, uint16_t color);
+void LCD_DrawRectangle(int x, int y, int width, int height, uint16_t color, uint8_t fill);
+uint16_t RGB16B(uint8_t r, uint8_t g, uint8_t b);
+void LCD_DrawBlock(int block_index, int x0, int y0);
+void LCD_DrawGameBackground(void);
+void LCD_DrawRGBImage(const uint8_t *img);
+void LCD_DrawRGB565Image(const uint16_t *img);
 uint16_t Get_TP_X(void);
 uint16_t Get_TP_Y(void);
 
